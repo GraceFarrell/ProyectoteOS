@@ -47,6 +47,8 @@ for i in lstFiles:
         data = json.load(f)
     arc_json.append(data)
 
+
+ordeness = []
 for data in arc_json:
     date = data["datetime"]
     request_id = data["request_id"]
@@ -54,7 +56,6 @@ for data in arc_json:
 ##    orden = data["orden"][0]["type"]
 ##    orden2 = data ["orden"][1]
 
-    ordeness = []
     for i in range (len(ordenes)):
         x = data["orden"][i]["part_id"]
         typee = data["orden"][i]["type"]
@@ -63,7 +64,7 @@ for data in arc_json:
         ingredients = data["orden"][i]["ingredients"]
         no = Orden(x,typee,meat,quantity,ingredients)
         ordeness.append(no)
-
-    for i in ordeness:
-        print(i)
+print(len(ordeness))
+for i in ordeness:
+    print(i)
     
