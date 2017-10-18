@@ -30,57 +30,67 @@ def Take_Orders(orders):
     data = json.loads(orders)  
     return data
 
-def Recieve_Orders(sqs):
-	response = sqs.receive_message(QueueUrl = 'https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2')
-
-	recibos = []
-	message_string = ""
-
-	for message in response["Messages"]:
-	#	message.append
-	#	print(message['Body'])
-		message_string = message['Body']
-
-	#for r in recibos:
-	#	response = sqs.delete_message(QueueURL='https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2',ReceiptHandle=r)
-
-	return Take_Orders(message_string)
+#def Recieve_Orders(sqs):
+#	response = sqs.receive_message(QueueUrl = 'https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2')
+#
+#	recibos = []
+#	message_string = ""
+#
+#	for message in response["Messages"]:
+#	#	message.append
+#	#	print(message['Body'])
+#		message_string = message['Body']
+#
+#	#for r in recibos:
+#	#	response = sqs.delete_message(QueueURL='https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2',ReceiptHandle=r)
+#
+#	return Take_Orders(message_string)
   
 #with open('projectJson.txt', 'r') as f:
 #     data = json.load(f)
 
-#inbound_Order = str({"datetime": "2017-01-01 23:23:23", "request_id": "123-123-123",
-#               "orden": [ { "part_id": "123-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
-#                          { "part_id": "123-222", "type": "mulita", "meat": "asada", "quantity": 1, "ingredients": []  },
-#                          { "part_id": "123-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "aguacate", "salsa"]} ]})
+inbound_Order = str({"datetime": "2017-01-01 23:23:23", "request_id": "123-123-123",
+               "orden": [ { "part_id": "123-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
+                          { "part_id": "123-222", "type": "mulita", "meat": "asada", "quantity": 1, "ingredients": []  },
+                          { "part_id": "123-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "aguacate", "salsa"]} ]})
 
-#data = Take_Orders(inbound_Order)
+data = Take_Orders(inbound_Order)
+print(data)
+#sqs = boto3.client('sqs')
+#data = Recieve_Orders(sqs)
 
-sqs = boto3.client('sqs')
-data = Recieve_Orders(sqs)
-     
-
-#with open('projectJson.txt', 'r') as f:
-#	data = json.load(f)
+ordeness=[]
+threads=[]
+ordenes_aws=[]
        
-date = data["datetime"]
-request_id = data["request_id"]
-ordenes = data["orden"]
-orden = data["orden"][0]["type"]
-orden2 = data ["orden"][1]
+def MakeOrder(date,idd,ordenes):
+    for i in range (len(ordenes)):
+        x = ordenes[i]["part_id"]
+        typee = ordenes[i]["type"]
+        meat = ordenes[i]["meat"]
+        quantity = ordenes[i]["quantity"]
+        ingredients = ordenes[i]["ingredients"]
+        no = Orden(date,idd,x,typee,meat,quantity,ingredients)
+        ordeness.append(no)
+        
+def MakeThreads(ordenes_aws):
+    for data in ordenes_aws:
+        date = data["datetime"]
+        request_id = data["request_id"]
+        ordenes = data["orden"]
+        #ordenes = []
+        #ordenes.append(o)
+        thread = Thread(target=MakeOrder,args=(date,request_id,ordenes))
+        thread.start()
+        threads.append(thread)
 
-ordeness = []
-for i in range (len(ordenes)):
-    x = data["orden"][i]["part_id"]
-    typee = data["orden"][i]["type"]
-    meat = data["orden"][i]["meat"]
-    quantity = data["orden"][i]["quantity"]
-    ingredients = data["orden"][i]["ingredients"]
-    no = Orden(x,typee,meat,quantity,ingredients)
-    ordeness.append(no)
+    for t in threads:
+        t.join()
+        
+MakeThreads(ordenes_aws)
 
 for i in ordeness:
-    print(i)
+    print (i)
 
 class Frank(tk.Tk):	
 
