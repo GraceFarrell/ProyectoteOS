@@ -32,32 +32,32 @@ def Take_Orders(orders):
     data = json.loads(orders)  
     return data
 
-def Recieve_Orders(sqs):
-	response = sqs.receive_message(QueueUrl = 'https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2')
+#def Recieve_Orders(sqs):
+#	response = sqs.receive_message(QueueUrl = 'https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2')
 
-	recibos = []
-	message_string = ""
+#	recibos = []
+#	message_string = ""
 
-	for message in response["Messages"]:
-		message.append
-		print(message['Body'])
-		message_string = message['Body']
+#	for message in response["Messages"]:
+#		message.append
+#		print(message['Body'])
+#		message_string = message['Body']
 
-	for r in recibos:
-		response = sqs.delete_message(QueueURL='https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2',ReceiptHandle=r)
+#	for r in recibos:
+#		response = sqs.delete_message(QueueURL='https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2',ReceiptHandle=r)
 
-	return Take_Orders(message_string)
+#	return Take_Orders(message_string)
 
-#inbound_Order = str({"datetime": "2017-01-01 23:23:23", "request_id": "123-123-123",
-#               "orden": [ { "part_id": "123-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
-#                          { "part_id": "123-222", "type": "mulita", "meat": "asada", "quantity": 1, "ingredients": []  },
-#                          { "part_id": "123-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "aguacate", "salsa"]} ]})
+inbound_Order = str({"datetime": "2017-01-01 23:23:23", "request_id": "123-123-123",
+               "orden": [ { "part_id": "123-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
+                          { "part_id": "123-222", "type": "mulita", "meat": "asada", "quantity": 1, "ingredients": []  },
+                          { "part_id": "123-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "aguacate", "salsa"]} ]})
 
-#data = Take_Orders(inbound_Order)
+data = Take_Orders(inbound_Order)
 #print(data)
 
-sqs = boto3.client('sqs')
-data = Recieve_Orders(sqs)
+#sqs = boto3.client('sqs')
+#data = Recieve_Orders(sqs)
 
 ordeness=[]
 threads=[]
