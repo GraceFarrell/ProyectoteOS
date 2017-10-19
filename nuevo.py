@@ -14,14 +14,16 @@ from matplotlib import style
 LARGE_FONT=("Verdana", 12)
 
 class Orden:
-    def __init__(self,part_id,typee,meat,quantity,ingredients):
+    def __init__(self,date,idd,part_id,typee,meat,quantity,ingredients):
+        self.date = date
+        self.idd = idd
         self.part_id = part_id
         self.typee = typee
         self.meat=meat
         self.quantity = quantity
         self.ingredients = ingredients
     def __str__(self):
-        return "part_id:{0}\n typee:{1}\n meat:{2}\n quantity:{3}\n ingredients:{4}\n".format(self.part_id,self.typee,self.meat,self.quantity,self.ingredients)
+        return "datetime:{0}\n request_id:{1}\n part_id:{2}\n typee:{3}\n meat:{4}\n quantity:{5}\n ingredients:{6}\n".format(self.date,self.idd,self.part_id,self.typee,self.meat,self.quantity,self.ingredients)
     def __iter__(self):
         return self
 
