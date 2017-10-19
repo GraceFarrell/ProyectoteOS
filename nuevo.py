@@ -1,15 +1,15 @@
 import json
 import time
 import datetime
+import boto3
 from threading import Thread
 import matplotlib
 matplotlib.use("TkAgg")
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import tkinter as tk
-import ttk as Ttk
+from tkinter import ttk as Ttk
 import matplotlib.pyplot as plt
-from matplotlib import style
 
 LARGE_FONT=("Verdana", 12)
 
@@ -32,38 +32,36 @@ def Take_Orders(orders):
     data = json.loads(orders)  
     return data
 
-#def Recieve_Orders(sqs):
-#	response = sqs.receive_message(QueueUrl = 'https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2')
-#
-#	recibos = []
-#	message_string = ""
-#
-#	for message in response["Messages"]:
-#	#	message.append
-#	#	print(message['Body'])
-#		message_string = message['Body']
-#
-#	#for r in recibos:
-#	#	response = sqs.delete_message(QueueURL='https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2',ReceiptHandle=r)
-#
-#	return Take_Orders(message_string)
-  
-#with open('projectJson.txt', 'r') as f:
-#     data = json.load(f)
+def Recieve_Orders(sqs):
+	response = sqs.receive_message(QueueUrl = 'https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2')
 
-inbound_Order = str({"datetime": "2017-01-01 23:23:23", "request_id": "123-123-123",
-               "orden": [ { "part_id": "123-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
-                          { "part_id": "123-222", "type": "mulita", "meat": "asada", "quantity": 1, "ingredients": []  },
-                          { "part_id": "123-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "aguacate", "salsa"]} ]})
+	recibos = []
+	message_string = ""
 
-data = Take_Orders(inbound_Order)
-print(data)
-#sqs = boto3.client('sqs')
-#data = Recieve_Orders(sqs)
+	for message in response["Messages"]:
+		message.append
+		print(message['Body'])
+		message_string = message['Body']
+
+	for r in recibos:
+		response = sqs.delete_message(QueueURL='https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2',ReceiptHandle=r)
+
+	return Take_Orders(message_string)
+
+#inbound_Order = str({"datetime": "2017-01-01 23:23:23", "request_id": "123-123-123",
+#               "orden": [ { "part_id": "123-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
+#                          { "part_id": "123-222", "type": "mulita", "meat": "asada", "quantity": 1, "ingredients": []  },
+#                          { "part_id": "123-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "aguacate", "salsa"]} ]})
+
+#data = Take_Orders(inbound_Order)
+#print(data)
+
+sqs = boto3.client('sqs')
+data = Recieve_Orders(sqs)
 
 ordeness=[]
 threads=[]
-ordenes_aws=[]
+ordenes_aws=[data]
        
 def MakeOrder(date,idd,ordenes):
     for i in range (len(ordenes)):
@@ -80,8 +78,6 @@ def MakeThreads(ordenes_aws):
         date = data["datetime"]
         request_id = data["request_id"]
         ordenes = data["orden"]
-        #ordenes = []
-        #ordenes.append(o)
         thread = Thread(target=MakeOrder,args=(date,request_id,ordenes))
         thread.start()
         threads.append(thread)
@@ -107,25 +103,15 @@ class Frank(tk.Tk):
 		ordeness = ordeness
 
 		self.frames = {}
-
-		#for F in (Grafica1, Grafica2):
-		#	frame = F(container, self)
-		#	self.frames[F] = frame 
-
-		#	frame.grid(row=0, column=0, sticky="nsew")
 		
 		frame = Inicio(container, self)
 		self.frames[Inicio] = frame
 		frame.grid(row=0, column=0, sticky="nsew")
 
-		#frame = Grafica1(container, self, ordeness)
-		#self.frames[Grafica1] = frame
-		#frame.grid(row=0, column=0, sticky="nsew")
 
-		for F in (Grafica1, Grafica2):
+		for F in (Grafica1, Grafica2, Tabla):
 			frame = F(container, self, ordeness)
 			self.frames[F] = frame 
-
 			frame.grid(row=0, column=0, sticky="nsew")
 
 		self.show_frame(Inicio)
@@ -148,10 +134,10 @@ class Inicio(tk.Frame):
 		button3 = Ttk.Button(self, text="Grafica 2", command=lambda: controller.show_frame(Grafica2))
 		button3.pack()
 
+		button4 = Ttk.Button(self, text="Tabla", command=lambda: controller.show_frame(Tabla))
+		button4.pack()
 
 class Grafica1(tk.Frame):
-
-	style.use("dark_background")
 
 	def __init__(self, parent, controller, ordeness):
 
@@ -162,21 +148,11 @@ class Grafica1(tk.Frame):
 		button1 = Ttk.Button(self, text="Inicio", command=lambda: controller.show_frame(Inicio))
 		button1.pack()
 
-		f = Figure(figsize=(5,5), dpi=100)
+		f = Figure(figsize=(6,6), dpi=100)
 		a = f.add_subplot(111)
-		
-		#amount=[]
+	
 		tipos = []
-
-		#for i in ordeness:
-		#	amount.append(i.quantity)
-		#	tipos.append(i.typee)
-			
-		#total = sum(amount)
-
 		slices = []
-		#for i in amount:
-		#	slices.append((i*100)/total)
 
 		taco=["Taco"]
 		quesadilla=["Quesadilla"]
@@ -232,22 +208,11 @@ class Grafica2(tk.Frame):
 		button2 = Ttk.Button(self, text="Inicio", command=lambda: controller.show_frame(Inicio))
 		button2.pack()
 
-		f = Figure(figsize=(5,5), dpi=100)
+		f = Figure(figsize=(6,6), dpi=100)
 		a = f.add_subplot(111)
 		
-		#amount=[]
 		carne = []
 		slices = []
-
-		#for i in ordeness:
-			#amount.append(i.quantity)
-			#carne.append(i.meat)
-			
-		#total = sum(amount)
-
-		
-		#for i in amount:
-			#slices.append((i*100)/total)
 
 		asada=["Asada"]
 		adobada=["Adobada"]
@@ -291,6 +256,66 @@ class Grafica2(tk.Frame):
 
 		a.pie(slices, labels=carne, startangle=90, autopct='%1.1f%%')
 
+		canvas = FigureCanvasTkAgg(f, self)
+		canvas.show
+		canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand = True)
+
+class Tabla(tk.Frame):
+
+	def __init__(self, parent, controller, ordeness):
+		tk.Frame.__init__(self, parent)
+		label = tk.Label(self, text="Tabla", font=LARGE_FONT)
+		label.pack(pady=10,padx=10)
+
+		button5 = Ttk.Button(self, text="Inicio", command=lambda: controller.show_frame(Inicio))
+		button5.pack()
+
+		f = Figure(figsize=(6,6), dpi=100)
+		a = f.add_subplot(111)
+
+		asada=["Asada"]
+		adobada=["Adobada"]
+		cabeza=["Cabeza"]
+		lengua=["Lengua"]
+		suadero=["Suadero"]
+		veggie=["Veggie"]
+		tripa=["Tripa"]
+
+		carnes = [asada,adobada,cabeza,lengua,suadero,veggie,tripa]
+
+		for i in ordeness:
+			if i.meat == "asada":
+				asada.append(i.quantity)
+
+			elif i.meat == "adobada":
+				adobada.append(i.quantity)
+
+			elif i.meat == "cabeza":
+				cabeza.append(i.quantity)
+
+			elif i.meat == "lengua":
+				lengua.append(i.quantity)
+
+			elif i.meat == "suadero":
+				suadero.append(i.quantity)
+
+			elif i.meat == "veggie":
+				veggie.append(i.quantity)
+
+			elif i.meat == "tripa":
+				tripa.append(i.quantity)
+
+		columns = ['Cantidad']
+		rows = ['Asada','Adobada','Cabeza','Lengua','Suadero','Veggie','Tripa']
+		data_list = []
+		for i in carnes:
+			amount = [sum(i[:0:-1])]
+			data_list.append(amount)
+		
+		a.table(cellText=data_list, colLabels=columns, rowLabels=rows, loc="upper center")
+
+		a.axis("off")
+		
 		canvas = FigureCanvasTkAgg(f, self)
 		canvas.show
 		canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand = True)
