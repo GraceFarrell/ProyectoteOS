@@ -17,6 +17,8 @@ lista_taquero_adobada = Queue()
 lista_taquero_cabeza_lengua = Queue()
 lista_taquero_otros = Queue()
 
+ordenes = []
+
 def Atender(cliente):
     for orden in cliente.getOrdenes():
         orden.ready=True
@@ -25,6 +27,8 @@ def AgregandoClientes(lista,taqueria,clientes):
     for i in range(len(lista)):
         customer = Cliente(lista[i]["datetime"],lista[i]["request_id"],lista[i]["orden"])
         clientes.append(customer)
+	for orden in customer.getOrdenes():
+            ordenes.append(orden)
         taqueria.addCliente()  
 
 def main():
@@ -53,7 +57,8 @@ def main():
 ##            print("Esta completada la orden del cliente")
 ##        print (c)
 
-    
+    print ()
+    print(ordenes)
 
     end = tiempo()
     print(end-start)
