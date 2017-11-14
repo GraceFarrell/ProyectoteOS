@@ -1,7 +1,6 @@
 import json
 import time
 import datetime
-import boto3
 from threading import Thread
 import matplotlib
 matplotlib.use("TkAgg")
@@ -10,20 +9,21 @@ from matplotlib.figure import Figure
 import tkinter as tk
 from tkinter import ttk as Ttk
 import matplotlib.pyplot as plt
+from matplotlib import style
+import numpy as np
 
 LARGE_FONT=("Verdana", 12)
+MEDIUM_FONT=("Verdana", 10)
 
 class Orden:
-    def __init__(self,date,idd,part_id,typee,meat,quantity,ingredients):
-        self.date = date
-        self.idd = idd
+    def __init__(self,part_id,typee,meat,quantity,ingredients):
         self.part_id = part_id
         self.typee = typee
         self.meat=meat
         self.quantity = quantity
         self.ingredients = ingredients
     def __str__(self):
-        return "datetime:{0}\n request_id:{1}\n part_id:{2}\n typee:{3}\n meat:{4}\n quantity:{5}\n ingredients:{6}\n".format(self.date,self.idd,self.part_id,self.typee,self.meat,self.quantity,self.ingredients)
+        return "part_id:{0}\n typee:{1}\n meat:{2}\n quantity:{3}\n ingredients:{4}\n".format(self.part_id,self.typee,self.meat,self.quantity,self.ingredients)
     def __iter__(self):
         return self
 
@@ -32,21 +32,24 @@ def Take_Orders(orders):
     data = json.loads(orders)  
     return data
 
-#def Recieve_Orders(sqs):
-#	response = sqs.receive_message(QueueUrl = 'https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2')
+##def Recieve_Orders(sqs):
+##	response = sqs.receive_message(QueueUrl = 'https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2')
 
-#	recibos = []
-#	message_string = ""
+##	recibos = []
+##	message_string = ""
 
-#	for message in response["Messages"]:
-#		message.append
-#		print(message['Body'])
-#		message_string = message['Body']
+##	for message in response["Messages"]:
+	#	message.append
+	#	print(message['Body'])
+##		message_string = message['Body']
 
-#	for r in recibos:
-#		response = sqs.delete_message(QueueURL='https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2',ReceiptHandle=r)
+	#for r in recibos:
+	#	response = sqs.delete_message(QueueURL='https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2',ReceiptHandle=r)
 
-#	return Take_Orders(message_string)
+##	return Take_Orders(message_string)
+  
+#with open('projectJson.txt', 'r') as f:
+#     data = json.load(f)
 
 inbound_Order = str({"datetime": "2017-01-01 23:23:23", "request_id": "123-123-123",
                "orden": [ { "part_id": "123-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
@@ -54,43 +57,36 @@ inbound_Order = str({"datetime": "2017-01-01 23:23:23", "request_id": "123-123-1
                           { "part_id": "123-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "aguacate", "salsa"]} ]})
 
 data = Take_Orders(inbound_Order)
-#print(data)
 
-#sqs = boto3.client('sqs')
-#data = Recieve_Orders(sqs)
+##sqs = boto3.client('sqs')
+##data = Recieve_Orders(sqs)
+     
 
-ordeness=[]
-threads=[]
-ordenes_aws=[data]
+#with open('projectJson.txt', 'r') as f:
+#	data = json.load(f)
        
-def MakeOrder(date,idd,ordenes):
-    for i in range (len(ordenes)):
-        x = ordenes[i]["part_id"]
-        typee = ordenes[i]["type"]
-        meat = ordenes[i]["meat"]
-        quantity = ordenes[i]["quantity"]
-        ingredients = ordenes[i]["ingredients"]
-        no = Orden(date,idd,x,typee,meat,quantity,ingredients)
-        ordeness.append(no)
-        
-def MakeThreads(ordenes_aws):
-    for data in ordenes_aws:
-        date = data["datetime"]
-        request_id = data["request_id"]
-        ordenes = data["orden"]
-        thread = Thread(target=MakeOrder,args=(date,request_id,ordenes))
-        thread.start()
-        threads.append(thread)
+date = data["datetime"]
+request_id = data["request_id"]
+ordenes = data["orden"]
+orden = data["orden"][0]["type"]
+orden2 = data ["orden"][1]
 
-    for t in threads:
-        t.join()
-        
-MakeThreads(ordenes_aws)
+ordeness = []
+for i in range (len(ordenes)):
+    x = data["orden"][i]["part_id"]
+    typee = data["orden"][i]["type"]
+    meat = data["orden"][i]["meat"]
+    quantity = data["orden"][i]["quantity"]
+    ingredients = data["orden"][i]["ingredients"]
+    no = Orden(x,typee,meat,quantity,ingredients)
+    ordeness.append(no)
 
 for i in ordeness:
-    print (i)
+    print(i)
 
 class Frank(tk.Tk):	
+
+	#style.use("dark_background")
 
 	def __init__(self, ordeness, *args, **kwargs):
 		tk.Tk.__init__(self, *args, **kwargs)
@@ -136,6 +132,7 @@ class Inicio(tk.Frame):
 
 		button4 = Ttk.Button(self, text="Tabla", command=lambda: controller.show_frame(Tabla))
 		button4.pack()
+
 
 class Grafica1(tk.Frame):
 
@@ -272,6 +269,8 @@ class Tabla(tk.Frame):
 
 		f = Figure(figsize=(6,6), dpi=100)
 		a = f.add_subplot(111)
+
+		#carne = []
 
 		asada=["Asada"]
 		adobada=["Adobada"]
