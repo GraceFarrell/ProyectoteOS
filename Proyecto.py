@@ -11,13 +11,14 @@ import tkinter as tk
 from tkinter import ttk as Ttk
 import matplotlib.pyplot as plt
 from time import time as tiempo
+import numpy as np
 
-clientes = [] 
+clientes = []
 
 class Taqueria:
     def __init__(self):
         self.clientes = []
-	self.numero_clientes = 0
+	self.numero_clientes=0
     def addCliente(self):
         self.numero_clientes += 1 
     def getClientes(self):
@@ -96,12 +97,12 @@ def Recieve_Orders(sqs):
 	message_string = ""
 
 	for message in response["Messages"]:
-		message.append
+		message.append(message)
 		print(message['Body'])
 		message_string = message['Body']
 
-	for r in recibos:
-		response = sqs.delete_message(QueueURL='https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2',ReceiptHandle=r)
+##	for r in recibos:
+##		response = sqs.delete_message(QueueURL='https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2',ReceiptHandle=r)
 
 	return Take_Orders(message_string)
 
