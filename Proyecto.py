@@ -11,14 +11,11 @@ from ClasesTaqueria import Orden
 from ClasesTaqueria import Taqueria
 from ClasesTaqueria import Cliente
 
-LARGE_FONT=("Verdana", 12)
-clientes = []
-
 def Atender(cliente):
     for orden in cliente.getOrdenes():
         orden.ready=True
         
-def CustomerService(lista,taqueria): 
+def CustomerService(lista,taqueria,clientes): 
     for i in range(len(lista)):
         customer = Cliente(lista[i]["datetime"],lista[i]["request_id"],lista[i]["orden"])
         clientes.append(customer)
@@ -26,13 +23,19 @@ def CustomerService(lista,taqueria):
 
 def main():
     start = tiempo()
-    queue = Queue()
+
+    taquero_asada = Queue()
+    taquero_adobada = Queue()
+    taquero_cabeza_lengua=Queue()
+    taquero_otros = Queue()
+
     inbound_Order = str({"datetime": "2017-01-01 23:23:23", "request_id": "123-123-123",
                    "orden": [ { "part_id": "123-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
                               { "part_id": "123-222", "type": "mulita", "meat": "asada", "quantity": 1, "ingredients": []  },
                               { "part_id": "123-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "aguacate", "salsa"]} ]})
 
     ordenes_aws=[]
+    clientes = []
     Franc = Taqueria()
     
     try:
@@ -42,8 +45,7 @@ def main():
         data = Take_Orders(inbound_Order)
         ordenes_aws.append(data)
 
-    CustomerService(ordenes_aws,Franc)
-    Atender(clientes[0])
+    CustomerService(ordenes_aws,Franc,clientes)
 
 ##    for c in clientes:
 ##        if c.getCompletado():
