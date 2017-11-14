@@ -12,30 +12,16 @@ from tkinter import ttk as Ttk
 import matplotlib.pyplot as plt
 from time import time as tiempo
 
-LARGE_FONT=("Verdana", 12)
+clientes = [] 
 
 class Taqueria:
-    def __init__(self,name):
-        self.name = name
-        self.lista = []
-    def addCliente(self,cliente):
-        self.lista.append(cliente)
+    def __init__(self):
+        self.clientes = []
+	self.numero_clientes = 0
+    def addCliente(self):
+        self.numero_clientes += 1 
     def getClientes(self):
-        return self.lista
-    def getMeats(self):
-        carnes = {"asada":0,"adobada":0,"cabeza":0, "lengua":0, "suadero":0, "veggie":0,"Tripa":0}
-        z = []
-        for cliente in lista:
-            z.extend(cliente.getOrderMeat())
-        carnes["asada"]= z.count("asada")
-        carnes["adobada"]= z.count("adobada")
-        carnes["cabeza"]= z.count("cabeza")
-        carnes["lengua"]= z.count("lengua")
-        carnes["suadero"]= z.count("suadero")
-        carnes["veggie"]= z.count("veggie")
-        carnes["tripa"]= z.count("tripa")
-        return carnes
-
+        return self.numero_clientes
          
 class Orden:
     def __init__(self,part_id,typee,meat,quantity,ingredients,ready=False):
@@ -57,54 +43,46 @@ class Orden:
         return "part_id:{0}\n typee:{1}\n meat:{2}\n quantity:{3}\n ingredients:{4}\n".format(self.part_id,self.typee,self.meat,self.quantity,self.ingredients)
     def __iter__(self):
         return self
-    def getMeatGraph(self):
-        for i in range(self.quantity):
-            self.meatG.append(self.meat)
-        return self.meatG
-
     
 class Cliente:
     def __init__(self,date,idd,ordenes):
         self.date=date
         self.idd=idd
-        self.x = []
-        self.meats= []
+        self.numero_ordenes = 0
         self.ordenes = self.addOrden(ordenes)
     def addOrden(self,orden):
+	ordenes = []
         for i in range (len(orden)):
             no = Orden(orden[i]["part_id"],orden[i]["type"],orden[i]["meat"],orden[i]["quantity"],orden[i]["ingredients"],False)
-            self.x.append(no)
-            self.meats.extend(no.getMeatGraph())
+            self.numero_ordenes += 1
+	    ordenes.append(no)
     def getOrdenesSize(self):
-        return len(self.x)
-    def getOrderMeat(self):
-        return self.meats
+        return self.numero_ordenes
     def getOrdenes(self):
-        return self.x
+        return self.ordenes
     def getCompletado(self):
         temp = 0
         for orden in ordenes:
             if orden.ready:
                 temp += 1
-        if temp == len(self.x):
+        if temp == self.numero_ordenes:
             return True
         return False
     def __str__(self):
         temp = ""
-        for orden in self.x:
+        for orden in self.ordenes:
             temp += orden.String()
         return "Cliente: {0} \n{1}\n{2}".format(self.idd,self.date,temp)
 
-def CustomerService(lista,taqueria):
-    for i in range(len(lista)):
-        customer = Cliente(lista[i]["datetime"],lista[i]["request_id"],lista[i]["orden"])
-        taqueria.addCliente(customer)
+def Atender(cliente):
+    for orden in cliente.getOrdenes():
+	orden.ready = True
 
-def CustomerService2(lista,clientes,taqueria): #primero que utilice
+def CustomerService2(lista,taqueria): 
     for i in range(len(lista)):
         customer = Cliente(lista[i]["datetime"],lista[i]["request_id"],lista[i]["orden"])
         clientes.append(customer)
-        taqueria.addCliente(customer)
+        taqueria.addCliente()
     
 def Take_Orders(orders):
     orders = orders.replace("'", "\"")    
@@ -142,8 +120,7 @@ def main():
                               { "part_id": "123-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "aguacate", "salsa"]} ]})
 
     ordenes_aws=[]
-    clientes = []
-    Franc = Taqueria("Franc")
+    Franc = Taqueria()
     
     try:
         sqs = boto3.client('sqs')
@@ -153,14 +130,12 @@ def main():
         ordenes_aws.append(data)
 
     CustomerService(ordenes_aws,Franc)
+    Atender(clientes[0])
 
     for c in Franc.getClientes():
+	if c.getCompletado():
+	   print("Esta completada la orden del cliente")
         print (c)
-
-##    print(Franc.getClientes()[0].getOrdenesSize())
-##    print(Franc.getClientes()[0].getOrdenes())
-##    print (Franc.getClientes()[0].getOrderMeat())
-    
 
     end = tiempo()
     print(end-start)
