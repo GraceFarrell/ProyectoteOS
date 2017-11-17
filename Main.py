@@ -11,7 +11,7 @@ from ClasesTaqueria import Orden
 from ClasesTaqueria import Taqueria
 from ClasesTaqueria import Cliente
 
-todas_ordenes_taqueria = Queue()
+ordenes_taqueria = Queue()
 lista_taquero_asada = Queue()
 lista_taquero_adobada = Queue()
 lista_taquero_cabeza_lengua = Queue()
@@ -29,7 +29,15 @@ def AgregandoClientes(lista,taqueria,clientes):
         clientes.append(customer)
 	for orden in customer.getOrdenes():
             ordenes.append(orden)
+            ordenes_taqueria.put(orden)
         taqueria.addCliente()
+def getData():
+    try:
+        sqs = boto3.client('sqs')
+        data = Recieve_Orders(sqs)
+    except:
+        data = Take_Orders(inbound_Order)
+        ordenes_aws.append(data)
 
 def main():
     start = tiempo()
@@ -43,18 +51,12 @@ def main():
     clientes = []
     Franc = Taqueria()
 
-    try:
-        sqs = boto3.client('sqs')
-        data = Recieve_Orders(sqs)
-    except:
-        data = Take_Orders(inbound_Order)
-        ordenes_aws.append(data)
-
+    getData()
     AgregandoClientes(ordenes_aws,Franc,clientes)
 
 
     print ()
-    print(ordenes)
+    print(ordenes_taqueria)
 
     end = tiempo()
     print(end-start)
