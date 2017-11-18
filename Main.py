@@ -22,6 +22,7 @@ ordenes = []
 def Atender(cliente):
     for orden in cliente.getOrdenes():
         orden.ready=True
+<<<<<<< HEAD
         
 def AgregandoClientes(lista,taqueria,clientes):
 	for i in range(len(lista)):
@@ -36,6 +37,24 @@ def getData():
                    "orden": [ { "part_id": "123-111",  "type": "taco", "meat": $
                               { "part_id": "123-222", "type": "mulita", "meat":$
                               { "part_id": "123-333", "type": "quesadilla", "me$
+=======
+
+def AgregandoClientes(lista,taqueria,clientes):
+    for i in range(len(lista)):
+        customer = Cliente(lista[i]["datetime"],lista[i]["request_id"],lista[i]["orden"])
+        clientes.append(customer)
+	for orden in customer.getOrdenes():
+            ordenes.append(orden)
+            ordenes_taqueria.put(orden)
+        taqueria.addCliente()
+def getData():
+    try:
+        sqs = boto3.client('sqs')
+        data = Recieve_Orders(sqs)
+    except:
+        data = Take_Orders(inbound_Order)
+        ordenes_aws.append(data)
+>>>>>>> 45b64ba7d059edbbf256b77c94d0c713725e187a
 
 	try:
 		sqs = boto3.client("sqs")
@@ -56,22 +75,26 @@ def main():
     ordenes_aws=[]
     clientes = []
     Franc = Taqueria()
+<<<<<<< HEAD
     
     getData()
+=======
+>>>>>>> 45b64ba7d059edbbf256b77c94d0c713725e187a
 
+    getData()
     AgregandoClientes(ordenes_aws,Franc,clientes)
 
-##    for c in clientes:
-##        if c.getCompletado():
-##            print("Esta completada la orden del cliente")
-##        print (c)
 
+<<<<<<< HEAD
     for orden in ordenes:
 	if orden.getMeat() == "asada":
 		
+=======
+    print ()
+    print(ordenes_taqueria)
+>>>>>>> 45b64ba7d059edbbf256b77c94d0c713725e187a
 
     end = tiempo()
     print(end-start)
 
 main()
-
