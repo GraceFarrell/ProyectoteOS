@@ -1,34 +1,3 @@
-<!DOCTYPE html>
-	<html>
-	<head>
-		<title> Operating Systems Project </title>
-		<style>  
-			h1  {text-align: center;
-				font-family: time news roman
-				font-size: 20px;
-
-			}
-			h2 {
-				background-color: lightgray;
-				border-left: 5px solid red;
-				border: 2px black;
-				border-radius: 5px;
-				text-align: left;
-				font-family: times new roman;
-				font-size: 14px;
-			}
-			p {
-				text-align: justify;
-				font-family: times new roman
-				font-size: 12px;
-
-			}
-			li {
-				font-size: 12px;
-			}
-
-		</style>
-	</head>
 	<body>
 		<h1> Operating Systems Project</h1>
 		<p> This repository presents the documentation of our Operating Systems Final Project, which consist in a simulation of "Taqueria".</p>		
@@ -50,4 +19,3 @@
 		<h2 id = "3"> 3. Installation </h2>
 		<h2 id = "4"> 4. Contribuitors </h2>
 	</body>
-	</html>
