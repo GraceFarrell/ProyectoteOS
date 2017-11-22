@@ -10,7 +10,12 @@
 <h2 id = "1"> 1. Pre-Requisites </h2>
 <p> This project was developed to be run in Linux. To be able to run the project it is required to download the files of this repository. Likewise, it is important to have Python in your computer and some python modules. </p>
 <h2 id = "2"> 2. Installation </h2>
-<p> List of elements  </p>
+<p> List of elements required to be installed to run the code </p>
+<UL type = disk> 
+  <LI> Python 3.6 or newest version </LI>
+  <p> To install python click on the next <a href = "https://www.python.org/downloads/"> link </a>
+    
+</UL>
 <h2 id = "3"> 3. Algorithm </h2>
 <h2 id = "4"> 4. Contribuitors </h2>
 <UL type = disk> 
