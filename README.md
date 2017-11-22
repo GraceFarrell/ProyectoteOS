@@ -37,7 +37,9 @@
   <pre> sudo apt-get install python3-matplotlib</pre>
   <p> or </p>
   <pre> sudo pip3 matplotlib </pre>
-  <LI> numpy </LI>
+  <LI> <h4> numpy </h4> </LI>
+  <p> To install numpy using the terminal, try: </p>
+  <pre> pip3 install numpy </pre>
 </UL>
 <h2 id = "3"> 3. Algorithm </h2>
 <h2 id = "4"> 4. Contribuitors </h2>
