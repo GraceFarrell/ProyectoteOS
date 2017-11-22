@@ -1,4 +1,4 @@
-<h1> Operating System Project: Taqueria Simulation </h1>
+<h1> Operating Systems Project: Taqueria Simulation </h1>
 <p> This repository presents the documentation of our Operating Systems Final Project, which consists in simulate the way  "Tacos Franc" manage the orders of its customers.</p>		
 <h2> Table of Contents </h2>
 <UL type = disk> 
