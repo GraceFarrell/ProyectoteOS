@@ -1,70 +1,173 @@
 import json
 import time
 import datetime
-import boto3
+##import boto3
 from threading import Thread
 from time import time as tiempo
 from queue import Queue
 from OrdenesAWS import Take_Orders
-from OrdenesAWS import Recieve_Orders
+##from OrdenesAWS import Recieve_Orders
 from ClasesTaqueria import Orden
 from ClasesTaqueria import Taqueria
 from ClasesTaqueria import Cliente
+from ClasesTaqueria import Taquero
 
 ordenes_taqueria = Queue()
-lista_taquero_asada = Queue()
-lista_taquero_adobada = Queue()
-lista_taquero_cabeza_lengua = Queue()
-lista_taquero_otros = Queue()
+ordenes_terminadas = []
 
 ordenes = []
+ordenes_aws=[]
+clientes = []
+Franc = Taqueria()
 
-def Atender(cliente):
-	for orden in cliente.getOrdenes():
-		orden.ready=True
+def CustomerReady():
+    while True:
+        for cliente in clientes:
+            if cliente.getCompletado():
+                clientes.remove(cliente)
+                print("termine cliente")
 
-def AgregandoClientes(lista,taqueria,clientes):
-	for i in range(len(lista)):
-        	customer = Cliente(lista[i]["datetime"],lista[i]["request_id"],lista[i]["orden"])
-        	clientes.append(customer)
-	for orden in customer.getOrdenes():
-		ordenes.append(orden)
-		ordenes_taqueria.put(orden)
-	taqueria.addCliente()
+def AgregandoClientes(cliente,taqueria,clientes):
+    customer = Cliente(cliente["datetime"],cliente["request_id"],cliente["orden"])
+    clientes.append(customer)
+    for orden in customer.getOrdenes():
+        ordenes.append(orden)
+        ordenes_taqueria.put(orden)
+    taqueria.addCliente()
 
-def getData():
-	    inbound_Order = str({"datetime": "2017-01-01 23:23:23", "request_id": "123-$
-                   "orden": [ { "part_id": "123-111",  "type": "taco", "meat": $
-                              { "part_id": "123-222", "type": "mulita", "meat":$
-                              { "part_id": "123-333", "type": "quesadilla", "me$
+def setMeats(taquero_uno, taquero_dos, taquero_tres):
+    for i in range(ordenes_taqueria.qsize()):
+        meat = ordenes_taqueria.get()
+        if meat.getMeat() == "asada":
+            taquero_uno.max_priority.put(meat)
+        elif meat.getMeat() == "adobada":
+            taquero_dos.max_priority.put(meat)
+        elif meat.getMeat() == "lengua":
+            taquero_tres.max_priority.put(meat)
+        elif meat.getMeat() == "veggie":
+            taquero_uno.max_priority.put(meat)
+        elif meat.getMeat() == "tripa":
+            taquero_dos.max_priority.put(meat)
+        elif meat.getMeat() == "cabeza":
+            taquero_tres.max_priority.put(meat)
+        elif meat.getMeat() == "suadero":
+            taquero_tres.max_priority.put(meat)
+        print ("ya asigne")
 
-	try:
-		sqs = boto3.client('sqs')
-		data = Recieve_Orders(sqs)
-	except:
-		data = Take_Orders(inbound_Order)
-		ordenes_aws.append(data)
+def getData(taquero_uno, taquero_dos, taquero_tres):
+    inbound_Order = str({"datetime": "2017-01-01 23:23:23", "request_id": "123-123-123",
+                   "orden": [ { "part_id": "123-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
+                              { "part_id": "123-222", "type": "mulita", "meat": "asada", "quantity": 1, "ingredients": []  },
+                              { "part_id": "123-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "aguacate", "salsa"]} ]})
+
+    while True:
+##        try:
+##            sqs = boto3.client('sqs')
+##            data = Recieve_Orders(sqs)
+##        except:
+        data = Take_Orders(inbound_Order)
+        
+        AgregandoClientes(data,Franc,clientes)
+        setMeats(taquero_uno, taquero_dos, taquero_tres)
+
+def Tortillera_Asada():
+    print("Testing")
+
+def Tortillera_Adobada():
+    print("Testing")
+
+def Tortillera_Lengua():
+    print("Testing")
+            
+def Queue_algorithm(taquero):
+    while True:
+        if taquero.max_priority.empty() == False:
+            cocinar(taquero,4,taquero.max_priority,taquero.med_priority)
+                
+        if taquero.med_priority.empty() == False:
+            cocinar(taquero,8,taquero.med_priority,taquero.low_priority)
+
+        if taquero.low_priority.empty() == False:
+            cocinar(taquero,16,taquero.low_priority,taquero.min_priority)
+
+        if taquero.waiting.empty() == False:
+            time_slice = orden.current_total_time
+            time.sleep(time_slice)
+            orden.ready = True
+
+        else:
+            if taquero.min_priority.empty() == False:
+                cocinar(taquero,32,taquero.min_priority,taquero.waiting)
+
+def cocinar(taquero,time_slice,start_priority,next_priority):
+        orden = start_priority.get()
+        orden.setTimeByType()
+        print(orden.time_by_type)
+        toPrepare = orden.toPrepare
+        how_many = time_slice//orden.time_by_type #cuantos de ese tipo puede hacer en ese time slice
+        
+        if how_many < toPrepare:
+            time.sleep(time_slice)
+            for ingredient in orden.ingredientes:
+                taquero.ingredientes[ingredient]-=how_many
+            taquero.ingredientes[orden.getMeat]-=how_many
+            orden.toPrepare -= how_many
+            next_priority.put(orden)
+            
+        else:
+            time.sleep(orden.current_total_time)
+            for ingredient in orden.ingredientes:
+                taquero.ingredientes[ingredient]-=toPrepare
+            taquero.ingredientes[orden.getMeat]-=toPrepare
+            orden.ready = True
 
 def main():
-    start = tiempo()
+    threads = []
+##    start = tiempo()
+    
+    taquero_uno = Taquero() #Asada, veggie
+    taquero_uno.ingredientes["asada"]=500
+    taquero_uno.ingredientes["veggie"]=500
+    taquero_dos = Taquero() #Adobada, tripa
+    taquero_dos.ingredientes["adobada"]=500
+    taquero_dos.ingredientes["tripa"]=500
+    taquero_tres = Taquero() #Lengua, cabeza, suadero
+    taquero_tres.ingredientes["lengua"]=500
+    taquero_tres.ingredientes["cabeza"]=500
+    taquero_tres.ingredientes["suadero"]=500
+    
+    thread_getData = Thread(target=getData,args= (taquero_uno, taquero_dos, taquero_tres))
+    thread_getData.setDaemon(True)
+    thread_getData.start()
+    threads.append(thread_getData)
 
-#    inbound_Order = str({"datetime": "2017-01-01 23:23:23", "request_id": "123-123-123",
-#                   "orden": [ { "part_id": "123-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
-#                              { "part_id": "123-222", "type": "mulita", "meat": "asada", "quantity": 1, "ingredients": []  },
-#                              { "part_id": "123-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "aguacate", "salsa"]} ]})
+    thread_uno = Thread(target=Queue_algorithm,args= (taquero_uno,))
+    thread_uno.setDaemon(True)
+    thread_uno.start()
+    threads.append(thread_uno)
 
-    ordenes_aws=[]
-    clientes = []
-    Franc = Taqueria()
+    thread_dos = Thread(target=Queue_algorithm,args= (taquero_dos,))
+    thread_dos.setDaemon(True)
+    thread_dos.start()
+    threads.append(thread_dos)
 
-    getData()
-    AgregandoClientes(ordenes_aws,Franc,clientes)
+    thread_tres = Thread(target=Queue_algorithm,args= (taquero_tres,))
+    thread_tres.setDaemon(True)
+    thread_tres.start()
+    threads.append(thread_tres)
 
+    thread_customer_ready = Thread(target=CustomerReady)
+    thread_customer_ready.setDaemon(True)
+    thread_customer_ready.start()
+    threads.append(thread_customer_ready)
+    
+##    for i in threads:
+##        i.join()      
+##    getData()
+                            
+##    AgregandoClientes(ordenes_aws,Franc,clientes)
 
-    print ()
-    print(ordenes_taqueria)
-
-    end = tiempo()
-    print(end-start)
+##    end = tiempo()
+##    print(end-start)
 
 main()
