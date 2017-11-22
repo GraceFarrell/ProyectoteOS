@@ -12,7 +12,7 @@
 <h2 id = "2"> 2. Installation </h2>
 <p> List of elements required to be installed to run the code </p>
 <UL type = disk> 
-  <LI> Python 3.6 or newest version </LI>
+  <LI> <h3> Python 3.6 or newest version </h3> </LI>
   <p> To install python click on the next <a href = "https://www.python.org/downloads/"> link </a>
     
 </UL>
