@@ -6,3 +6,8 @@
   <LI> <a href = "#2"> 2. Pre-Requisites </a></LI>
   <LI> <a href = "#3"> 3. Installation </a></LI>
   <LI> <a href = "#4"> 4. Contribuitors </a></LI>
+</UL>
+<h2 id = "1"> 1. Getting Start </h2>
+<h2 id = "2"> 2. Pre-Requisites </h2>
+<h2 id = "3"> 3. Installation </h2>
+<h2 id = "4"> 4. Contribuitors </h2>
