@@ -11,5 +11,8 @@
 <h2 id = "2"> 2. Pre-Requisites </h2>
 <h2 id = "3"> 3. Installation </h2>
 <h2 id = "4"> 4. Contribuitors </h2>
-<a href = "https://github.com/MiguelFrias97"> Miguel Frias </a>
-
+<UL type = disk> 
+  <a href = "https://github.com/Kohina-Arisato"> Ariana Inzunza </a>
+  <a href = "https://github.com/MiguelFrias97"> Miguel Frias </a>
+  <a href = "https://github.com/GraceFarrell"> Natalia Cornejo </a>
+</UL>
