@@ -13,7 +13,14 @@
 <p> List of elements required to be installed to run the code </p>
 <UL type = disk> 
   <LI> <h4> Python 3.6 or newest version </h4> </LI>
-  <p> To install python click on the next <a href = "https://www.python.org/downloads/"> link </a>
+  <p> To install python click on the next <a href = "https://www.python.org/downloads/"> link </a></p>
+  <LI> <h4> boto3 </h4></LI>
+  <p> This module is used to read the queues of Amazon SQS Service. To install follow the next steps: </p>
+  <LI> <h4> Matplotlib </h4></LI>
+  <p> To install using the terminal, try: </p>
+  <pre> sudo apt-get install python3-matplotlib</pre>
+  <p> or </p>
+  <pre> sudo pip3 matplotlib </pre>
     
 </UL>
 <h2 id = "3"> 3. Algorithm </h2>
