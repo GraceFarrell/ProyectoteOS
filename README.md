@@ -15,7 +15,23 @@
   <LI> <h4> Python 3.6 or newest version </h4> </LI>
   <p> To install python click on the next <a href = "https://www.python.org/downloads/"> link </a></p>
   <LI> <h4> boto3 </h4></LI>
-  <p> This module is used to read the queues of Amazon SQS Service. To install follow the next steps: </p>
+  <p> This module is used to read the queues of Amazon SQS Service. To install using the terminal, try: </p>
+  <pre> sudo apt-get install pip-boto3</pre>
+  <p> or </p>
+  <pre> sudo pip3 install boto3 </pre>
+  <p> When boto3 is installed, it is required to create the next files and folder: </p>
+   <UL type = square> 
+     <LI> Create a hidden folder in the home directory, called:</LI>
+     <pre> .aws </pre>
+     <p> Inside the folder create two files called credentials and config. </p>
+     <LI> credentials</LI>
+     <pre> [default]
+     aws_access_key_id = YOUR_ACCESS_KEY
+     aws_secret_access_key = YOUR_SECRET_KEY </pre>
+     <LI> config </LI>
+     <pre> [default]
+     region=us-east-1 </pre>
+  </UL>
   <LI> <h4> Matplotlib </h4></LI>
   <p> To install using the terminal, try: </p>
   <pre> sudo apt-get install python3-matplotlib</pre>
