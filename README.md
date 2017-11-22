@@ -1,53 +1,20 @@
-
-	<head>
-		<title> Operating Systems Project </title>
-		<style>  
-			h1  {text-align: center;
-				font-family: time news roman
-				font-size: 20px;
-
-			}
-			h2 {
-				background-color: lightgray;
-				border-left: 5px solid red;
-				border: 2px black;
-				border-radius: 5px;
-				text-align: left;
-				font-family: times new roman;
-				font-size: 14;
-			}
-			p {
-				text-align: justify;
-				font-family: times new roman
-				font-size: 12;
-
-			}
-			li {
-				font-size: 12;
-			}
-
-		</style>
-	</head>
-	<body>
-		<h1> Operating Systems Project
-			 <p> This repository presents the documentation of our Operating Systems Final Project, which consist in a simulation of "Taqueria".</p>
-		</h1>
-		
-		<h2> Table of Contents </h2>
-			<p> 
-				<UL type = disk> 
-					<li> <a href="#1"> 1. Getting Start</a></li>
-					<li> <a href="#2"> 2. Pre-requisites</a></li>
-					<li> <a href="#3"> 3. Installation</a></li>
-					<li> <a href="#4"> 4. Contribuitors</a></li>
-		 		</UL>
-		 	</p>
-
-		<h2 id = "1"> 1. Getting Start 
-			<p> </p>
-		</h2>
-		
-		<h2 id = "2"> 2. Pre-requisites</h2>
-		<h2 id = "3"> 3. Installation </h2>
-		<h2 id = "4"> 4. Contribuitors </h2>
-	</body>
+<h1> Operating System Project: Taqueria Simulation </h1>
+<p> This repository presents the documentation of our Operating Systems Final Project, which consists in simulate the way  "Tacos Franc" manage the orders of its customers.</p>		
+<h2> Table of Contents </h2>
+<UL type = disk> 
+  <LI> <a href = "#1"> 1. Pre-Requisites </a></LI>
+  <LI> <a href = "#2"> 2. Installation </a></LI>
+  <LI> <a href = "#3"> 3. Algorithm </a></LI>
+  <LI> <a href = "#4"> 4. Contribuitors </a></LI>
+</UL>
+<h2 id = "1"> 1. Pre-Requisites </h2>
+<p> This project was developed to be run in Linux. To be able to run the project it is required to download the files of this repository. Likewise, it is important to have Python in your computer and some python modules. </p>
+<h2 id = "2"> 2. Installation </h2>
+<p> List of elements  </p>
+<h2 id = "3"> 3. Algorithm </h2>
+<h2 id = "4"> 4. Contribuitors </h2>
+<UL type = disk> 
+  <LI> <a href = "https://github.com/Kohina-Arisato"> Ariana Inzunza </a> </LI>
+  <LI> <a href = "https://github.com/MiguelFrias97"> Miguel Frias </a> </LI>
+  <LI> <a href = "https://github.com/GraceFarrell"> Natalia Cornejo </a> </LI>
+</UL>
