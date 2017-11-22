@@ -26,11 +26,11 @@
      <p> Inside the folder create two files called credentials and config. </p>
      <LI> credentials</LI>
      <pre> [default]
-    aws_access_key_id = YOUR_ACCESS_KEY
-    aws_secret_access_key = YOUR_SECRET_KEY </pre>
+  aws_access_key_id = YOUR_ACCESS_KEY
+  aws_secret_access_key = YOUR_SECRET_KEY </pre>
      <LI> config </LI>
      <pre> [default]
-    region=us-east-1 </pre>
+  region=us-east-1 </pre>
   </UL>
   <LI> <h4> Matplotlib </h4></LI>
   <p> To install using the terminal, try: </p>
