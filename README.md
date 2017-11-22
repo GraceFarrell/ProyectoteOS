@@ -2,10 +2,10 @@
 <p> This repository presents the documentation of our Operating Systems Final Project, which consists in simulate the way  "Tacos Franc" manage the orders of its customers.</p>		
 <h2> Table of Contents </h2>
 <UL type = disk> 
-  <LI> <a href = "#1"> 1. Pre-Requisites </a></LI>
-  <LI> <a href = "#2"> 2. Installation </a></LI>
-  <LI> <a href = "#3"> 3. Algorithm </a></LI>
-  <LI> <a href = "#4"> 4. Contribuitors </a></LI>
+  <LI> <a href = "#1"> Pre-Requisites </a></LI>
+  <LI> <a href = "#2"> Installation </a></LI>
+  <LI> <a href = "#3"> Algorithm </a></LI>
+  <LI> <a href = "#4"> Contribuitors </a></LI>
 </UL>
 <h2 id = "1"> 1. Pre-Requisites </h2>
 <p> This project was developed to be run in Linux. To be able to run the project it is required to download the files of this repository. Likewise, it is important to have Python in your computer and some python modules. </p>
