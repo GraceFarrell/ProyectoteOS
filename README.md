@@ -31,13 +31,13 @@
      <LI> config </LI>
      <pre> [default]
  region=us-east-1 </pre>
-  </UL>
+    </UL>
   <LI> <h4> Matplotlib </h4></LI>
   <p> To install using the terminal, try: </p>
   <pre> sudo apt-get install python3-matplotlib</pre>
   <p> or </p>
   <pre> sudo pip3 matplotlib </pre>
-    
+  <LI> numpy </LI>
 </UL>
 <h2 id = "3"> 3. Algorithm </h2>
 <h2 id = "4"> 4. Contribuitors </h2>
