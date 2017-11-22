@@ -12,7 +12,7 @@
 <h2 id = "3"> 3. Installation </h2>
 <h2 id = "4"> 4. Contribuitors </h2>
 <UL type = disk> 
-  <a href = "https://github.com/Kohina-Arisato"> Ariana Inzunza </a>
-  <a href = "https://github.com/MiguelFrias97"> Miguel Frias </a>
-  <a href = "https://github.com/GraceFarrell"> Natalia Cornejo </a>
+  <LI> <a href = "https://github.com/Kohina-Arisato"> Ariana Inzunza </a> </LI>
+  <LI> <a href = "https://github.com/MiguelFrias97"> Miguel Frias </a> </LI>
+  <LI> <a href = "https://github.com/GraceFarrell"> Natalia Cornejo </a> </LI>
 </UL>
