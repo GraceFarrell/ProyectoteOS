@@ -26,8 +26,8 @@
      <p> Inside the folder create two files called credentials and config. </p>
      <LI> credentials</LI>
      <pre> [default]
- aws_access_key_id = YOUR_ACCESS_KEY
- aws_secret_access_key = YOUR_SECRET_KEY </pre>
+ aws_access_key_id=YOUR_ACCESS_KEY
+ aws_secret_access_key=YOUR_SECRET_KEY </pre>
      <LI> config </LI>
      <pre> [default]
  region=us-east-1 </pre>
