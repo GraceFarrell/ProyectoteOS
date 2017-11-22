@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-	<!DOCTYPE html>
-	<html>
+
 	<head>
 		<title> Operating Systems Project </title>
 		<style>  
@@ -53,4 +51,3 @@
 		<h2 id = "3"> 3. Installation </h2>
 		<h2 id = "4"> 4. Contribuitors </h2>
 	</body>
-	</html>
