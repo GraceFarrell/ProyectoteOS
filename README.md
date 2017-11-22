@@ -34,14 +34,15 @@
     </UL>
   <LI> <h4> Matplotlib </h4></LI>
   <p> To install using the terminal, try: </p>
-  <pre> sudo apt-get install python3-matplotlib</pre>
+  <pre> sudo apt-get install python3-matplotlib </pre>
   <p> or </p>
   <pre> sudo pip3 matplotlib </pre>
   <LI> <h4> numpy </h4> </LI>
   <p> To install numpy using the terminal, try: </p>
-  <pre> pip3 install numpy </pre>
+  <pre> sudo pip3 install numpy </pre>
 </UL>
 <h2 id = "3"> 3. Algorithm </h2>
+<img src = "https://s.aolcdn.com/dims-global/dims3/GLOB/legacy_thumbnail/916x515/quality/95/https://s.blogcdn.com/slideshows/images/slides/715/583/5/S7155835/slug/l/roadster-front-34-1.jpg">
 <h2 id = "4"> 4. Contribuitors </h2>
 <UL type = disk> 
   <LI> <a href = "https://github.com/Kohina-Arisato"> Ariana Inzunza </a> </LI>
