@@ -8,8 +8,9 @@
   <LI> <a href = "#4"> 4. Contribuitors </a></LI>
 </UL>
 <h2 id = "1"> 1. Pre-Requisites </h2>
-<p> This project was developed to be run in Linux. To be able to run the project it is required to download the files of this repository. Likewise, it is important to have Python in your computer and some python modules. 
+<p> This project was developed to be run in Linux. To be able to run the project it is required to download the files of this repository. Likewise, it is important to have Python in your computer and some python modules. </p>
 <h2 id = "2"> 2. Installation </h2>
+<p> The first step is download Python. 
 <h2 id = "3"> 3. Algorithm </h2>
 <h2 id = "4"> 4. Contribuitors </h2>
 <UL type = disk> 
