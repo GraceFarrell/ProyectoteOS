@@ -8,12 +8,12 @@
   <LI> <a href = "#4"> Contribuitors </a></LI>
 </UL>
 <h2 id = "1"> 1. Pre-Requisites </h2>
-<p> This project was developed to run in Linux. To be able to run the project it is required to download the files of this repository. Likewise, it is important to have Python in your computer and some python modules. </p>
+<p> This project was developed to run in Linux. To be able to run the project it is required to download the files of this repository. Likewise, it is important to have Python 3.6 or the newest version in your computer and some python modules. </p>
 <h2 id = "2"> 2. Installation </h2>
 <p> List of elements required to be installed to run the code </p>
 <UL type = disk> 
   <LI> <h4> Python 3.6 or newest version </h4> </LI>
-  <p> To install python click on the next <a href = "https://www.python.org/downloads/"> link </a></p>
+  <p> To install python click on the next <a href = "https://www.python.org/downloads/"> link. </a></p>
   <LI> <h4> boto3 </h4></LI>
   <p> This module is used to read the queues of Amazon SQS Service. To install using the terminal, try: </p>
   <pre> sudo apt-get install pip-boto3</pre>
