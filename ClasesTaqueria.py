@@ -26,26 +26,26 @@ class Orden:
 		self.quantity = quantity
 		self.ingredients = ingredients
 		self.ready = False
-		self.time_by_type = 0
 		self.toPrepare = self.quantity
+		self.time_by_type = self.setTimeByType()
 		self.current_total_time = self.time_by_type * self.toPrepare
 	def getType(self):
-		return self.type	
+		return self.typee	
 	def getMeat(self):
 		return self.meat
 	def setTimeByType(self):
-		if self.getType == "taco":
-			self.time_by_type = 1
-		elif self.getType == "quesadilla":
-			self.time_by_type = 3
-		elif self.getType == "mulita":
-			self.time_by_type = 3
-		elif self.getType == "tostada":
-			self.time_by_type = 2
-		elif self.getType == "vampiro":
-			self.time_by_type = 3
-		elif self.getType == "orden":
-			self.time_by_type = self.toPrepare-1
+		if self.typee == "taco":
+			return 1
+		elif self.typee == "quesadilla":
+			return 3
+		elif self.typee == "mulita":
+			return 3
+		elif self.typee == "tostada":
+			return 2
+		elif self.typee == "vampiro":
+			return 3
+		elif self.typee == "orden":
+			return self.toPrepare
 	def getQuantity(self):
 		return self.quantity
 	def String(self):
@@ -66,7 +66,7 @@ class Cliente:
     	def addOrden(self,orden):
         	ordenes = []
         	for i in range (len(orden)):
-        	    no = Orden(orden[i]["part_id"],orden[i]["type"],orden[i]["meat"],orden[i]["quantity"],orden[i]["ingredients"],False)
+        	    no = Orden(orden[i]["part_id"],orden[i]["type"],orden[i]["meat"],orden[i]["quantity"],orden[i]["ingredients"])
         	    self.numero_ordenes += 1
         	    ordenes.append(no)
         	return ordenes
