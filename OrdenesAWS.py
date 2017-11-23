@@ -1,5 +1,5 @@
 import json
-import boto3
+#import boto3
 def Take_Orders(orders):
     orders = orders.replace("'", "\"")    
     data = json.loads(orders)  
