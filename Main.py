@@ -11,6 +11,7 @@ from ClasesTaqueria import Orden
 from ClasesTaqueria import Taqueria
 from ClasesTaqueria import Cliente
 from ClasesTaqueria import Taquero
+import threading
 
 ordenes_taqueria = Queue()
 clientes = []
@@ -21,6 +22,7 @@ def CustomerReady():
 	while True:
 		for cliente in clientes:
 			if cliente.getCompletado():
+				cliente.getSteps()
 				clientes.remove(cliente)
 				print("termine cliente")
 
@@ -99,52 +101,65 @@ def getData(taquero_uno, taquero_dos, taquero_tres):
 		setMeats(taquero_uno, taquero_dos, taquero_tres)
 		counter += 1
 
-def Tortillera_Asada():
-	print("Testing")
-
-def Tortillera_Adobada():
-	print("Testing")
-
-def Tortillera_Lengua():
-	print("Testing")
+def manejo_ingredientes(lock, orden, num, who, taquero, ingredient):
+	lock.acquire()
+	if who==1:
+		for ingredient in orden.ingredients:
+			taquero.ingredientes[ingredient]-=num
+		taquero.ingredientes["tortillas"]-=num
+	else:
+		taquero.ingredientes[ingredient]+=num 
+	time.sleep(1)
+	lock.release()
             
-def Queue_algorithm(taquero):
+def Tortillera(lock, taquero):
+	while True:
+		for ingredient in taquero.ingredientes:
+			if taquero.ingredientes[ingredient] <= 200:
+				manejo_ingredientes(lock, False, 200, 0, taquero, ingredient)
+
+def Queue_algorithm(lock, taquero):
 	while True:
 		if taquero.max_priority.empty() == False:
-			cocinar(taquero,1,taquero.max_priority,taquero.med_priority)
+			cocinar(lock,taquero,1,taquero.max_priority,taquero.med_priority)
                 
 		if taquero.med_priority.empty() == False:
-			cocinar(taquero,2,taquero.med_priority,taquero.low_priority)
+			cocinar(lock,taquero,2,taquero.med_priority,taquero.low_priority)
 
 		if taquero.low_priority.empty() == False:
-			cocinar(taquero,4,taquero.low_priority,taquero.min_priority)
+			cocinar(lock,taquero,4,taquero.low_priority,taquero.min_priority)
 
-		if taquero.waiting.empty() == False:
-			time_slice = orden.current_total_time
-			orden.ready = True
-			time.sleep(time_slice)
-		else:
-			if taquero.min_priority.empty() == False:
-				cocinar(taquero,32,taquero.min_priority,taquero.waiting)
+		if taquero.waiting.empty() == False or taquero.min_priority.empty() == False:
+			if taquero.waiting.empty() == False:
+				time_slice = orden.current_total_time
+				orden.ready = True 
+				time.sleep(time_slice)
 
-def cocinar(taquero,time_slice,start_priority,next_priority):
+			elif taquero.min_priority.empty() == False:
+				cocinar(lock,taquero,32,taquero.min_priority,taquero.waiting)
+
+def cocinar(lock,taquero,time_slice,start_priority,next_priority):
 	orden = start_priority.get()
 	orden.setTimeByType()
-	###print(orden.time_by_type)
 	toPrepare = orden.toPrepare
 	how_many = time_slice//orden.time_by_type #cuantos de ese tipo puede hacer en ese time slice
-        
+
+	#for ingredient in orden.ingredients:
+	#	while taquero.ingredientes[ingredient] < how_many*50 or taquero.ingredientes["tortillas"] < how_many*50:
+	#		orden.steps.append("Waiting for " + ingredient)
+
+	orden.steps.append("Running")
+
 	if how_many < toPrepare:
-		for ingredient in orden.ingredients:
-			taquero.ingredientes[ingredient]-=how_many
+		manejo_ingredientes(lock, orden, 50, 1, taquero, False)
 		taquero.ingredientes[orden.getMeat()]-=how_many
 		orden.toPrepare -= how_many
-		next_priority.put(orden) 
+		next_priority.put(orden)
+		orden.steps.append("Paused") 
 		time.sleep(time_slice)
-  
+ 
 	else:
-		for ingredient in orden.ingredients:
-			taquero.ingredientes[ingredient]-=toPrepare
+		manejo_ingredientes(lock, orden, 50, 1, taquero, False)
 		taquero.ingredientes[orden.getMeat()]-=toPrepare
 		orden.ready = True
 		time.sleep(orden.current_total_time)
@@ -163,26 +178,45 @@ def main():
 	taquero_tres.ingredientes["lengua"]=500
 	taquero_tres.ingredientes["cabeza"]=500
 	taquero_tres.ingredientes["suadero"]=500
+	
+	lock1 = threading.Lock()
+	lock2 = threading.Lock()
+	lock3 = threading.Lock()
     
 	thread_getData = Thread(target=getData,args= (taquero_uno, taquero_dos, taquero_tres))
 	thread_getData.setDaemon(True)
 	thread_getData.start()
 	threads.append(thread_getData)
 
-	thread_uno = Thread(target=Queue_algorithm,args= (taquero_uno,))
+	thread_uno = Thread(target=Queue_algorithm,args= (lock1,taquero_uno,))
 	thread_uno.setDaemon(True)
 	thread_uno.start()
 	threads.append(thread_uno)
 
-	thread_dos = Thread(target=Queue_algorithm,args= (taquero_dos,))
+	tortillera_uno = Thread(target=Tortillera,args= (lock1,taquero_uno,))
+	tortillera_uno.setDaemon(True)
+	tortillera_uno.start()
+	threads.append(tortillera_uno)
+
+	thread_dos = Thread(target=Queue_algorithm,args= (lock2,taquero_dos,))
 	thread_dos.setDaemon(True)
 	thread_dos.start()
 	threads.append(thread_dos)
 
-	thread_tres = Thread(target=Queue_algorithm,args= (taquero_tres,))
+	tortillera_dos = Thread(target=Tortillera,args= (lock2,taquero_dos,))
+	tortillera_dos.setDaemon(True)
+	tortillera_dos.start()
+	threads.append(tortillera_dos)
+
+	thread_tres = Thread(target=Queue_algorithm,args= (lock3,taquero_tres,))
 	thread_tres.setDaemon(True)
 	thread_tres.start()
 	threads.append(thread_tres)
+
+	tortillera_tres = Thread(target=Tortillera,args= (lock3,taquero_tres,))
+	tortillera_tres.setDaemon(True)
+	tortillera_tres.start()
+	threads.append(tortillera_tres)
 
 	thread_customer_ready = Thread(target=CustomerReady)
 	thread_customer_ready.setDaemon(True)
