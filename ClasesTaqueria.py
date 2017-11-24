@@ -1,3 +1,4 @@
+import time
 from queue import Queue
 
 class Taquero:
@@ -8,6 +9,13 @@ class Taquero:
 		self.min_priority = Queue()
 		self.waiting = Queue()
 		self.ingredientes = {"cebolla":500,"salsa":500,"cilantro":500,"frijoles":500,"aguacate":500,"tortillas":500}
+		self.carnes = {}
+	def check_meat(self,orden,meat,how_many):
+		if self.carnes[meat] < 50:
+			self.carnes[meat] += 5
+			orden.steps.append("Paused --> Preparing " + meat)
+			time.sleep(1)
+		self.carnes[meat] -= how_many
 
 class Taqueria:
     	def __init__(self):
@@ -22,7 +30,7 @@ class Orden:
 	def __init__(self,part_id,typee,meat,quantity,ingredients):
 		self.part_id = part_id
 		self.typee = typee
-		self.meat=meat
+		self.meat = meat
 		self.quantity = quantity
 		self.ingredients = ingredients
 		self.ready = False

@@ -15,7 +15,6 @@ import threading
 
 ordenes_taqueria = Queue()
 clientes = []
-ordenes = []
 Franc = Taqueria()
 
 def CustomerReady():
@@ -30,7 +29,6 @@ def AgregandoClientes(cliente,taqueria,clientes):
 	customer = Cliente(cliente["datetime"],cliente["request_id"],cliente["orden"])
 	clientes.append(customer)
 	for orden in customer.getOrdenes():
-		ordenes.append(orden)
 		ordenes_taqueria.put(orden)
 	taqueria.addCliente()
 
@@ -120,17 +118,22 @@ def Tortillera(lock, taquero):
 
 def Queue_algorithm(lock, taquero):
 	while True:
-		if taquero.max_priority.empty() == False:
-			cocinar(lock,taquero,1,taquero.max_priority,taquero.med_priority)
-                
-		if taquero.med_priority.empty() == False:
-			cocinar(lock,taquero,2,taquero.med_priority,taquero.low_priority)
+		for small_orders in range(3):
+			if taquero.max_priority.empty() == False:
+				cocinar(lock,taquero,4,taquero.max_priority,taquero.med_priority)
+
+		for medium_orders in range(2):                
+			if taquero.med_priority.empty() == False:
+				cocinar(lock,taquero,8,taquero.med_priority,taquero.low_priority)
 
 		if taquero.low_priority.empty() == False:
-			cocinar(lock,taquero,4,taquero.low_priority,taquero.min_priority)
+			cocinar(lock,taquero,16,taquero.low_priority,taquero.min_priority)
 
 		if taquero.waiting.empty() == False or taquero.min_priority.empty() == False:
 			if taquero.waiting.empty() == False:
+				orden = taquero.waiting.get()
+				taquero.check_meat(orden,orden.meat,orden.toPrepare)
+				manejo_ingredientes(lock,orden,50,1,taquero,False)
 				time_slice = orden.current_total_time
 				orden.ready = True 
 				time.sleep(time_slice)
@@ -151,16 +154,16 @@ def cocinar(lock,taquero,time_slice,start_priority,next_priority):
 	orden.steps.append("Running")
 
 	if how_many < toPrepare:
+		taquero.check_meat(orden,orden.meat,how_many)
 		manejo_ingredientes(lock, orden, 50, 1, taquero, False)
-		taquero.ingredientes[orden.getMeat()]-=how_many
 		orden.toPrepare -= how_many
 		next_priority.put(orden)
 		orden.steps.append("Paused") 
 		time.sleep(time_slice)
  
 	else:
+		taquero.check_meat(orden,orden.meat,toPrepare)
 		manejo_ingredientes(lock, orden, 50, 1, taquero, False)
-		taquero.ingredientes[orden.getMeat()]-=toPrepare
 		orden.ready = True
 		time.sleep(orden.current_total_time)
 
@@ -169,15 +172,15 @@ def main():
 ##    start = tiempo()
     
 	taquero_uno = Taquero() #Asada, veggie
-	taquero_uno.ingredientes["asada"]=500
-	taquero_uno.ingredientes["veggie"]=500
+	taquero_uno.carnes["asada"]=50
+	taquero_uno.carnes["veggie"]=50
 	taquero_dos = Taquero() #Adobada, tripa
-	taquero_dos.ingredientes["adobada"]=500
-	taquero_dos.ingredientes["tripa"]=500
+	taquero_dos.carnes["adobada"]=50
+	taquero_dos.carnes["tripa"]=50
 	taquero_tres = Taquero() #Lengua, cabeza, suadero
-	taquero_tres.ingredientes["lengua"]=500
-	taquero_tres.ingredientes["cabeza"]=500
-	taquero_tres.ingredientes["suadero"]=500
+	taquero_tres.carnes["lengua"]=50
+	taquero_tres.carnes["cabeza"]=50
+	taquero_tres.carnes["suadero"]=50
 	
 	lock1 = threading.Lock()
 	lock2 = threading.Lock()
