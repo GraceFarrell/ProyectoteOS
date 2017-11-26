@@ -251,5 +251,29 @@ def main():
 	thread_customer_ready.setDaemon(True)
 	thread_customer_ready.start()
 	threads.append(thread_customer_ready)
+	
+	ingredientes = ("cebolla","salsa","cilantro","frijoles","aguacate","tortillas")
+	
+	def demo: 
+		valores = [taquero_uno.ingredientes["cebolla"],taquero_uno.ingredientes["salsa"],taquero_uno.ingredientes["cilantro"],taquero_uno.ingredientes["frijoles"],taquero_uno.ingredientes["aguacate"],taquero_uno.ingredientes["tortillas"]]
+		plt.subplot(2,2,1)
+		plt.bar(ingredientes,valores,align = "center",alpha = 0.5)
+
+		plt.subplot(2,2,2)
+		plt.bar(ingredientes,valores,align = "center",alpha = 0.5)
+
+		plt.subplot(2,2,3)
+		plt.bar(ingredientes,valores,align = "center",alpha = 0.5)
+
+		plt.subplot(2,2,4)
+		plt.bar(ingredientes,valores,align = "center",alpha = 0.5)
+	plt.ion()
+	for i in range(0,100):
+		plt.figure(figsize=(10,6))
+		demo()
+		plt.pause(0.5)
+		plt.draw()
+		if i != 100:
+			plt.close()
     
 main()
