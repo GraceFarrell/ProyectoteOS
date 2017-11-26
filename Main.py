@@ -2,6 +2,7 @@ import json
 import time
 import datetime
 ##import boto3
+import threading
 from threading import Thread
 from time import time as tiempo
 from queue import Queue
@@ -11,7 +12,6 @@ from ClasesTaqueria import Orden
 from ClasesTaqueria import Taqueria
 from ClasesTaqueria import Cliente
 from ClasesTaqueria import Taquero
-import threading
 
 ordenes_taqueria = Queue()
 clientes = []
@@ -21,7 +21,7 @@ def CustomerReady():
 	while True:
 		for cliente in clientes:
 			if cliente.getCompletado():
-				cliente.getSteps()
+				#cliente.getSteps()
 				clientes.remove(cliente)
 				print("termine cliente")
 
@@ -107,7 +107,7 @@ def manejo_ingredientes(lock, orden, num, who, taquero, ingredient):
 		taquero.ingredientes["tortillas"]-=num
 	else:
 		taquero.ingredientes[ingredient]+=num 
-	time.sleep(1)
+		time.sleep(1)
 	lock.release()
             
 def Tortillera(lock, taquero):
@@ -132,17 +132,33 @@ def Queue_algorithm(lock, taquero):
 		if taquero.waiting.empty() == False or taquero.min_priority.empty() == False:
 			if taquero.waiting.empty() == False:
 				orden = taquero.waiting.get()
+
+				orden.step_start_time = orden.step_end_time
+				orden.step_end_time = str(datetime.datetime.now())
+				orden.add_step("Paused", "Working on other orders")
+				
+				orden.step_start_time = str(datetime.datetime.now())           
 				taquero.check_meat(orden,orden.meat,orden.toPrepare)
 				manejo_ingredientes(lock,orden,50,1,taquero,False)
-				time_slice = orden.current_total_time
-				orden.ready = True 
+				time_slice = orden.current_total_time 
 				time.sleep(time_slice)
+				orden.ready = True
+
+				orden.step_end_time = str(datetime.datetime.now())
+				orden.add_step("Running", "Working on order")
+				print(orden.steps)
 
 			elif taquero.min_priority.empty() == False:
 				cocinar(lock,taquero,32,taquero.min_priority,taquero.waiting)
 
 def cocinar(lock,taquero,time_slice,start_priority,next_priority):
 	orden = start_priority.get()
+
+	if start_priority != taquero.max_priority:
+		orden.step_start_time = orden.step_end_time
+		orden.step_end_time = str(datetime.datetime.now())
+		orden.add_step("Paused", "Working on other orders")
+
 	orden.setTimeByType()
 	toPrepare = orden.toPrepare
 	how_many = time_slice//orden.time_by_type #cuantos de ese tipo puede hacer en ese time slice
@@ -151,21 +167,31 @@ def cocinar(lock,taquero,time_slice,start_priority,next_priority):
 	#	while taquero.ingredientes[ingredient] < how_many*50 or taquero.ingredientes["tortillas"] < how_many*50:
 	#		orden.steps.append("Waiting for " + ingredient)
 
-	orden.steps.append("Running")
+	#orden.steps.append("Running")
+	orden.step_start_time = str(datetime.datetime.now())
 
 	if how_many < toPrepare:
 		taquero.check_meat(orden,orden.meat,how_many)
 		manejo_ingredientes(lock, orden, 50, 1, taquero, False)
 		orden.toPrepare -= how_many
-		next_priority.put(orden)
-		orden.steps.append("Paused") 
+
+		##orden.steps.append("Paused") 
 		time.sleep(time_slice)
+		next_priority.put(orden)
+
+		orden.step_end_time = str(datetime.datetime.now())
+		orden.add_step("Running", "Working on order")
  
 	else:
 		taquero.check_meat(orden,orden.meat,toPrepare)
 		manejo_ingredientes(lock, orden, 50, 1, taquero, False)
-		orden.ready = True
+
 		time.sleep(orden.current_total_time)
+		orden.ready = True
+
+		orden.step_end_time = str(datetime.datetime.now())
+		orden.add_step("Running", "Working on order")
+		print(orden.steps)
 
 def main():
 	threads = []

@@ -1,4 +1,5 @@
 import time
+import datetime
 from queue import Queue
 
 class Taquero:
@@ -13,8 +14,12 @@ class Taquero:
 	def check_meat(self,orden,meat,how_many):
 		if self.carnes[meat] < 50:
 			self.carnes[meat] += 5
-			orden.steps.append("Paused --> Preparing " + meat)
 			time.sleep(1)
+
+			orden.step_end_time = str(datetime.datetime.now())
+			orden.add_step("On standby", "Preparing meat")
+			orden.step_start_time = str(datetime.datetime.now())
+
 		self.carnes[meat] -= how_many
 
 class Taqueria:
@@ -37,7 +42,20 @@ class Orden:
 		self.toPrepare = self.quantity
 		self.time_by_type = self.setTimeByType()
 		self.current_total_time = self.time_by_type * self.toPrepare
-		self.steps = []
+		self.step_start_time = 0
+		self.step_end_time = 0
+		self.current_step = 1
+		self.steps = [] #Lista de pasos de la suborden
+	def add_step(self,state,action):
+		step = {}
+		step["step"] = self.current_step
+		self.current_step += 1
+		step["state"] = state
+		step["action"] = action
+		step["part_id"] = self.part_id
+		step["start_time"] = self.step_start_time
+		step["end_time"] = self.step_end_time
+		self.steps.append(step)
 	def getType(self):
 		return self.typee	
 	def getMeat(self):
@@ -66,16 +84,14 @@ class Orden:
 	def getSteps(self):
 		for step in self.steps:
 			print(step)
-		
-
-    
+ 
 class Cliente:
 	def __init__(self,date,idd,ordenes):
 		self.date=date
 		self.idd=idd
 		self.numero_ordenes = 0
 		self.ordenes = self.addOrden(ordenes)
-        
+		self.answer = {"start_time":"","end_time":""}
 	def addOrden(self,orden):
 		ordenes = []
 		for i in range (len(orden)):
