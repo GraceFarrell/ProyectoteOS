@@ -258,25 +258,25 @@ def main():
 	thread_customer_ready.start()
 	threads.append(thread_customer_ready)
 	
-	ingredientes = ("cebolla","salsa","cilantro","frijoles","guacamole","tortillas")
+	ingredientes = (1,2,3,4,5,6)
 	
 	def demo(): 
 		valores = [taquero_uno.ingredientes["cebolla"],taquero_uno.ingredientes["salsa"],taquero_uno.ingredientes["cilantro"],taquero_uno.ingredientes["frijoles"],taquero_uno.ingredientes["guacamole"],taquero_uno.ingredientes["tortillas"]]
 		plt.subplot(2,2,1)
-		plt.bar(ingredientes,valores,align = "center",alpha = 0.5)
+		plt.bar(ingredientes,valores)
 		
-		queues = ("Queue1", "Queue 2", "Queue 3", "Queue 3", "Queue 4", "Queue 5")
+		eje = (1,2,3,4,5,6)
 		valores_2 = [taquero_uno.max_priority.qsize(),taquero_uno.med_priority.qsize(),taquero_uno.low_priority.qsize(),taquero_uno.min_priority.qsize(),taquero_uno.waiting.qsize()]    
 		plt.subplot(2,2,2)
-		plt.bar(queues,valores_2,align = "center",alpha = 0.5)
+		plt.bar(eje,valores_2,align = "center",alpha = 0.5)
 
 		valores_3 = [taquero_dos.ingredientes["cebolla"],taquero_dos.ingredientes["salsa"],taquero_dos.ingredientes["cilantro"],taquero_dos.ingredientes["frijoles"],taquero_dos.ingredientes["guacamole"],taquero_dos.ingredientes["tortillas"]]
-		ingredientes_2 = ("cebolla","salsa","cilantro","frijoles","aguacate","tortillas")
+		ingredientes_2 = (1,2,3,4,5,6)
 		plt.subplot(2,2,3)
 		plt.bar(ingredientes_2,valores_3,align = "center",alpha = 0.5)
 
 		
-		queues_2 = ("Queue 1","Queue 2","Queue 3","Queue 4","Queue 5")
+		queues_2 = (1,2,3,4,5,6)
 		valores_4 = [taquero_dos.max_priority.qsize(),taquero_dos.med_priority.qsize(),taquero_dos.low_priority.qsize(),taquero_dos.min_priority.qsize(),taquero_dos.waiting.qsize()]
 		plt.subplot(2,2,4)
 		plt.bar(queues_2,valores_4,align = "center",alpha = 0.5)
