@@ -103,7 +103,7 @@ def getData(taquero_uno, taquero_dos, taquero_tres):
 ##		data = Take_Orders(try_Order[counter])
 ##		AgregandoClientes(data,Franc,clientes)
 ##		setMeats(taquero_uno, taquero_dos, taquero_tres)
-			counter += 1
+		counter += 1
 
 def manejo_ingredientes(lock, orden, num, who, taquero, ingredient):
 	lock.acquire()
@@ -258,10 +258,10 @@ def main():
 	thread_customer_ready.start()
 	threads.append(thread_customer_ready)
 	
-	ingredientes = ("cebolla","salsa","cilantro","frijoles","aguacate","tortillas")
+	ingredientes = ("cebolla","salsa","cilantro","frijoles","guacamole","tortillas")
 	
 	def demo(): 
-		valores = [taquero_uno.ingredientes["cebolla"],taquero_uno.ingredientes["salsa"],taquero_uno.ingredientes["cilantro"],taquero_uno.ingredientes["frijoles"],taquero_uno.ingredientes["aguacate"],taquero_uno.ingredientes["tortillas"]]
+		valores = [taquero_uno.ingredientes["cebolla"],taquero_uno.ingredientes["salsa"],taquero_uno.ingredientes["cilantro"],taquero_uno.ingredientes["frijoles"],taquero_uno.ingredientes["guacamole"],taquero_uno.ingredientes["tortillas"]]
 		plt.subplot(2,2,1)
 		plt.bar(ingredientes,valores,align = "center",alpha = 0.5)
 		
@@ -270,7 +270,7 @@ def main():
 		plt.subplot(2,2,2)
 		plt.bar(queues,valores_2,align = "center",alpha = 0.5)
 
-		valores_3 = [taquero_dos.ingredientes["cebolla"],taquero_dos.ingredientes["salsa"],taquero_dos.ingredientes["cilantro"],taquero_dos.ingredientes["frijoles"],taquero_dos.ingredientes["aguacate"],taquero_dos.ingredientes["tortillas"]]
+		valores_3 = [taquero_dos.ingredientes["cebolla"],taquero_dos.ingredientes["salsa"],taquero_dos.ingredientes["cilantro"],taquero_dos.ingredientes["frijoles"],taquero_dos.ingredientes["guacamole"],taquero_dos.ingredientes["tortillas"]]
 		ingredientes_2 = ("cebolla","salsa","cilantro","frijoles","aguacate","tortillas")
 		plt.subplot(2,2,3)
 		plt.bar(ingredientes_2,valores_3,align = "center",alpha = 0.5)
@@ -284,9 +284,9 @@ def main():
 	for i in range(0,100):
 		plt.figure(figsize=(10,6))
 		demo()
-		plt.pause(0.5)
+		plt.pause(1)
 		plt.draw()
-		if i != 100:
+		if i != 99:
 			plt.close()
     
 main()

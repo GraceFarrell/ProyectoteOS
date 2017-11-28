@@ -9,7 +9,7 @@ class Taquero:
 		self.low_priority = Queue()
 		self.min_priority = Queue()
 		self.waiting = Queue()
-		self.ingredientes = {"cebolla":500,"salsa":500,"cilantro":500,"frijoles":500,"aguacate":500,"tortillas":500}
+		self.ingredientes = {"cebolla":500,"salsa":500,"cilantro":500,"frijoles":500,"guacamole":500,"tortillas":500}
 		self.carnes = {}
 	def check_meat(self,orden,meat,how_many):
 		if self.carnes[meat] < 50:
