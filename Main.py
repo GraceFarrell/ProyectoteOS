@@ -28,6 +28,7 @@ def CustomerReady():
 def AgregandoClientes(cliente,taqueria,clientes):
 	customer = Cliente(cliente["datetime"],cliente["request_id"],cliente["orden"])
 	clientes.append(customer)
+
 	for orden in customer.getOrdenes():
 		ordenes_taqueria.put(orden)
 	taqueria.addCliente()
@@ -49,7 +50,6 @@ def setMeats(taquero_uno, taquero_dos, taquero_tres):
 			taquero_tres.max_priority.put(meat)
 		elif meat.getMeat() == "suadero":
 			taquero_tres.max_priority.put(meat)
-		#print ("ya asigne")
 
 def getData(taquero_uno, taquero_dos, taquero_tres):
 	inbound_Order = str({"datetime": "2017-01-01 23:23:23", "request_id": "123-123-123",
@@ -163,11 +163,6 @@ def cocinar(lock,taquero,time_slice,start_priority,next_priority):
 	toPrepare = orden.toPrepare
 	how_many = time_slice//orden.time_by_type #cuantos de ese tipo puede hacer en ese time slice
 
-	#for ingredient in orden.ingredients:
-	#	while taquero.ingredientes[ingredient] < how_many*50 or taquero.ingredientes["tortillas"] < how_many*50:
-	#		orden.steps.append("Waiting for " + ingredient)
-
-	#orden.steps.append("Running")
 	orden.step_start_time = str(datetime.datetime.now())
 
 	if how_many < toPrepare:

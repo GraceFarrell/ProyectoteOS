@@ -11,6 +11,7 @@ class Taquero:
 		self.waiting = Queue()
 		self.ingredientes = {"cebolla":500,"salsa":500,"cilantro":500,"frijoles":500,"aguacate":500,"tortillas":500}
 		self.carnes = {}
+
 	def check_meat(self,orden,meat,how_many):
 		if self.carnes[meat] < 50:
 			self.carnes[meat] += 5
@@ -26,8 +27,10 @@ class Taqueria:
     	def __init__(self):
         	self.clientes = []
         	self.numero_clientes= 0 
+
     	def addCliente(self):
         	self.numero_clientes += 1
+
     	def getClientes(self):
         	return self.numero_clientes
 
@@ -46,6 +49,7 @@ class Orden:
 		self.step_end_time = 0
 		self.current_step = 1
 		self.steps = [] #Lista de pasos de la suborden
+
 	def add_step(self,state,action):
 		step = {}
 		step["step"] = self.current_step
@@ -56,10 +60,13 @@ class Orden:
 		step["start_time"] = self.step_start_time
 		step["end_time"] = self.step_end_time
 		self.steps.append(step)
+
 	def getType(self):
-		return self.typee	
+		return self.typee
+	
 	def getMeat(self):
 		return self.meat
+
 	def setTimeByType(self):
 		if self.typee == "taco":
 			return 1
@@ -73,14 +80,19 @@ class Orden:
 			return 3
 		elif self.typee == "orden":
 			return self.toPrepare
+
 	def getQuantity(self):
 		return self.quantity
+
 	def String(self):
 		return "part_id:{0}\n typee:{1}\n meat:{2}\n quantity:{3}\n ingredients:{4}\n".format(self.part_id,self.typee,self.meat,self.quantity,self.ingredients)
+
 	def __str__(self):
 		return "part_id:{0}\n typee:{1}\n meat:{2}\n quantity:{3}\n ingredients:{4}\n".format(self.part_id,self.typee,self.meat,self.quantity,self.ingredients)
+
 	def __iter__(self):
 		return self
+
 	def getSteps(self):
 		for step in self.steps:
 			print(step)
@@ -92,6 +104,7 @@ class Cliente:
 		self.numero_ordenes = 0
 		self.ordenes = self.addOrden(ordenes)
 		self.answer = {"start_time":"","end_time":""}
+
 	def addOrden(self,orden):
 		ordenes = []
 		for i in range (len(orden)):
@@ -99,14 +112,18 @@ class Cliente:
 			self.numero_ordenes += 1
 			ordenes.append(no)
 		return ordenes
+
 	def getOrdenesSize(self):
 		return self.numero_ordenes
+
 	def getOrdenes(self):
 		return self.ordenes
+
 	def getSteps(self):
 		for orden in self.ordenes:
 			for step in orden.steps:
 				print(step)
+
 	def getCompletado(self):
 		temp = 0
 		for orden in self.ordenes:
@@ -115,6 +132,7 @@ class Cliente:
 		if temp == self.numero_ordenes:
 			return True
 		return False
+
 	def __str__(self):
 		temp = ""
 		for orden in self.ordenes:
