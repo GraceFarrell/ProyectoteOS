@@ -1,13 +1,15 @@
 import json
 import time
 import datetime
-##import boto3
+import boto3
 import threading
+import matplotlib.pyplot as plt
+import numpy as np
 from threading import Thread
 from time import time as tiempo
 from queue import Queue
 from OrdenesAWS import Take_Orders
-##from OrdenesAWS import Recieve_Orders
+from OrdenesAWS import Recieve_Orders
 from ClasesTaqueria import Orden
 from ClasesTaqueria import Taqueria
 from ClasesTaqueria import Cliente
@@ -89,15 +91,19 @@ def getData(taquero_uno, taquero_dos, taquero_tres):
 	counter = 0
 
 	while len(try_Order) != counter:
-##        try:
-##            sqs = boto3.client('sqs')
-##            data = Recieve_Orders(sqs)
-##        except:
+		try:
+			sqs = boto3.client('sqs')
+			data = Recieve_Orders(sqs)
+			AgregandoClientes(data,Franc,clientes)
+			setMeats(taquero_uno, taquero_dos, taquero_tres)
+
+		except:
+			h = ""
 ##        data = Take_Orders(inbound_Order)
-		data = Take_Orders(try_Order[counter])
-		AgregandoClientes(data,Franc,clientes)
-		setMeats(taquero_uno, taquero_dos, taquero_tres)
-		counter += 1
+##		data = Take_Orders(try_Order[counter])
+##		AgregandoClientes(data,Franc,clientes)
+##		setMeats(taquero_uno, taquero_dos, taquero_tres)
+			counter += 1
 
 def manejo_ingredientes(lock, orden, num, who, taquero, ingredient):
 	lock.acquire()
@@ -254,7 +260,7 @@ def main():
 	
 	ingredientes = ("cebolla","salsa","cilantro","frijoles","aguacate","tortillas")
 	
-	def demo: 
+	def demo(): 
 		valores = [taquero_uno.ingredientes["cebolla"],taquero_uno.ingredientes["salsa"],taquero_uno.ingredientes["cilantro"],taquero_uno.ingredientes["frijoles"],taquero_uno.ingredientes["aguacate"],taquero_uno.ingredientes["tortillas"]]
 		plt.subplot(2,2,1)
 		plt.bar(ingredientes,valores,align = "center",alpha = 0.5)
@@ -262,18 +268,18 @@ def main():
 		queues = ("Queue1", "Queue 2", "Queue 3", "Queue 3", "Queue 4", "Queue 5")
 		valores_2 = [taquero_uno.max_priority.qsize(),taquero_uno.med_priority.qsize(),taquero_uno.low_priority.qsize(),taquero_uno.min_priority.qsize(),taquero_uno.waiting.qsize()]    
 		plt.subplot(2,2,2)
-		plt.bar(ingredientes,valores,align = "center",alpha = 0.5)
+		plt.bar(queues,valores_2,align = "center",alpha = 0.5)
 
 		valores_3 = [taquero_dos.ingredientes["cebolla"],taquero_dos.ingredientes["salsa"],taquero_dos.ingredientes["cilantro"],taquero_dos.ingredientes["frijoles"],taquero_dos.ingredientes["aguacate"],taquero_dos.ingredientes["tortillas"]]
 		ingredientes_2 = ("cebolla","salsa","cilantro","frijoles","aguacate","tortillas")
 		plt.subplot(2,2,3)
-		plt.bar(ingredientes,valores,align = "center",alpha = 0.5)
+		plt.bar(ingredientes_2,valores_3,align = "center",alpha = 0.5)
 
 		
 		queues_2 = ("Queue 1","Queue 2","Queue 3","Queue 4","Queue 5")
 		valores_4 = [taquero_dos.max_priority.qsize(),taquero_dos.med_priority.qsize(),taquero_dos.low_priority.qsize(),taquero_dos.min_priority.qsize(),taquero_dos.waiting.qsize()]
 		plt.subplot(2,2,4)
-		plt.bar(ingredientes,valores,align = "center",alpha = 0.5)
+		plt.bar(queues_2,valores_4,align = "center",alpha = 0.5)
 	plt.ion()
 	for i in range(0,100):
 		plt.figure(figsize=(10,6))
