@@ -260,33 +260,48 @@ def main():
 	
 	ingredientes = (1,2,3,4,5,6)
 	
-	def demo(): 
-		valores = [taquero_uno.ingredientes["cebolla"],taquero_uno.ingredientes["salsa"],taquero_uno.ingredientes["cilantro"],taquero_uno.ingredientes["frijoles"],taquero_uno.ingredientes["guacamole"],taquero_uno.ingredientes["tortillas"]]
-		plt.subplot(2,2,1)
-		plt.bar(ingredientes,valores)
-		
-		eje = (1,2,3,4,5,6)
-		valores_2 = [taquero_uno.max_priority.qsize(),taquero_uno.med_priority.qsize(),taquero_uno.low_priority.qsize(),taquero_uno.min_priority.qsize(),taquero_uno.waiting.qsize()]    
-		plt.subplot(2,2,2)
-		plt.bar(eje,valores_2,align = "center",alpha = 0.5)
+        def demo():
+                plt.sca(axes[0, 0])
+                ingredientes = ("cebolla","salsa","cilantro","frijoles","guacamole","tortillas")
+                valores = [taquero_uno.ingredientes["cebolla"],taquero_uno.ingredientes["salsa"],taquero_uno.ingredientes["cilantro"],taquero_uno.ingredientes["frijoles"],taquero_uno.ingredientes["guacamole"],taquero_uno.ingredientes["tortillas"]]
+                plt.bar(range(6),valores,align = "center",alpha = 0.5)
+                plt.xticks(range(6), ingredientes, color='red')
 
-		valores_3 = [taquero_dos.ingredientes["cebolla"],taquero_dos.ingredientes["salsa"],taquero_dos.ingredientes["cilantro"],taquero_dos.ingredientes["frijoles"],taquero_dos.ingredientes["guacamole"],taquero_dos.ingredientes["tortillas"]]
-		ingredientes_2 = (1,2,3,4,5,6)
-		plt.subplot(2,2,3)
-		plt.bar(ingredientes_2,valores_3,align = "center",alpha = 0.5)
 
-		
-		queues_2 = (1,2,3,4,5,6)
-		valores_4 = [taquero_dos.max_priority.qsize(),taquero_dos.med_priority.qsize(),taquero_dos.low_priority.qsize(),taquero_dos.min_priority.qsize(),taquero_dos.waiting.qsize()]
-		plt.subplot(2,2,4)
-		plt.bar(queues_2,valores_4,align = "center",alpha = 0.5)
-	plt.ion()
-	for i in range(0,100):
-		plt.figure(figsize=(10,6))
-		demo()
-		plt.pause(1)
-		plt.draw()
-		if i != 99:
-			plt.close()
+                plt.sca(axes[0,1])
+                eje = ("Queue 1","Queue 2","Queue 3","Queue 4","Queue 5")
+                valores_2 = [taquero_uno.max_priority.qsize(),taquero_uno.med_priority.qsize(),taquero_uno.low_priority.qsize(),taquero_uno.min_priority.qsize(),taquero_uno.waiting.qsize()]    
+                plt.bar(range(5),valores_2,align = "center",alpha = 0.5)
+                plt.xticks(range(6), eje, color='red')
+
+
+                plt.sca(axes[1,0])
+                valores_3 = [taquero_dos.ingredientes["cebolla"],taquero_dos.ingredientes["salsa"],taquero_dos.ingredientes["cilantro"],taquero_dos.ingredientes["frijoles"],taquero_dos.ingredientes["guacamole"],taquero_dos.ingredientes["tortillas"]]
+                ingredientes_2 = ("cebolla","salsa","cilantro","frijoles","aguacate","tortillas")
+                plt.bar(range(6),valores_3,align = "center",alpha = 0.5)
+                plt.xticks(range(6), ingredientes_2, color='red')
+
+                plt.sca(axes[1,1])
+                queues_2 = ("Queue 1","Queue 2","Queue 3","Queue 4","Queue 5")
+                valores_4 = [taquero_dos.max_priority.qsize(),taquero_dos.med_priority.qsize(),taquero_dos.low_priority.qsize(),taquero_dos.min_priority.qsize(),taquero_dos.waiting.qsize()]
+                plt.bar(range(5),valores_4,align = "center",alpha = 0.5)
+                plt.xticks(range(6), queues_2, color='red')
+                
+                plt.sca(axes[0,2])
+                valores_4 = [taquero_tres.ingredientes["cebolla"],taquero_tres.ingredientes["salsa"],taquero_tres.ingredientes["cilantro"],taquero_tres.ingredientes["frijoles"],taquero_tres.ingredientes["guacamole"],taquero_tres.ingredientes["tortillas"]]
+                ingredientes_3 = ("cebolla","salsa","cilantro","frijoles","aguacate","tortillas")
+                plt.bar(range(6),valores_4,align = "center",alpha = 0.5)
+                plt.xticks(range(6), ingredientes_3, color='red')
+
+        
+        plt.ion()
+        for i in range(10):
+                fig, axes = plt.subplots(nrows=2, ncols=3)
+                demo()
+                fig.tight_layout()
+                plt.pause(1)
+                plt.draw()
+                if i != 9:
+                        plt.close()
     
 main()
