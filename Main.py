@@ -19,6 +19,8 @@ ordenes_taqueria = Queue()
 clientes = []
 Franc = Taqueria()
 
+# Revisa si el cliente esta listo para salir de la taqueria,
+# Tambien elimina el mensaje del SQS y envia la respuesta
 def CustomerReady():
 	while True:
 		for cliente in clientes:
@@ -29,6 +31,8 @@ def CustomerReady():
 				clientes.remove(cliente)
 				print("termine cliente")
 
+# Crea al cliente y le asigna sus ordenes,
+# Cada orden es una instancia de la Clase Orden
 def AgregandoClientes(cliente,taqueria,clientes,receipt):
 	customer = Cliente(cliente["datetime"],cliente["request_id"],cliente["orden"])
 	customer.orden = cliente
@@ -39,6 +43,8 @@ def AgregandoClientes(cliente,taqueria,clientes,receipt):
 		ordenes_taqueria.put(orden)
 	taqueria.addCliente()
 
+# Toma una orden del queue de ordenes de toda la taqueria y lo envia
+# al queue del taquero correspondiente dependiendo el tipo de carne 
 def setMeats(taquero_uno, taquero_dos, taquero_tres):
 	for i in range(ordenes_taqueria.qsize()):
 		meat = ordenes_taqueria.get()
@@ -56,7 +62,8 @@ def setMeats(taquero_uno, taquero_dos, taquero_tres):
 			taquero_tres.max_priority.put(meat)
 		elif meat.getMeat() == "suadero":
 			taquero_tres.max_priority.put(meat)
-
+# Obtiene los mensajes del SQS que posteriormente senran clientes y dentro
+# del cliente estaran sus ordenes
 def getData(taquero_uno, taquero_dos, taquero_tres):
 
 	counter = 0
@@ -64,7 +71,7 @@ def getData(taquero_uno, taquero_dos, taquero_tres):
 	while 10 != counter:
 		try:
 			data,receipt = Recieve_Orders()
-			print(receipt)
+			#print(receipt)
 			AgregandoClientes(data,Franc,clientes,receipt)
 			setMeats(taquero_uno, taquero_dos, taquero_tres)
 		except:
@@ -72,6 +79,9 @@ def getData(taquero_uno, taquero_dos, taquero_tres):
 
 		counter += 1
 
+# Esta funcion disminuye los ingrdientes cuando una orden es procesada, 
+# tambien se encarga de volver a proveer los ingredientes una vez que 
+# existan pocos. 
 def manejo_ingredientes(lock, orden, num, who, taquero, ingredient):
 	lock.acquire()
 	if who==1:
@@ -84,7 +94,8 @@ def manejo_ingredientes(lock, orden, num, who, taquero, ingredient):
 		taquero.ingredientes[ingredient]+=50 
 		time.sleep(1)
 	lock.release()
-            
+        
+    
 def Tortillera(lock, taquero):
 	while True:
 		for ingredient in taquero.ingredientes:
@@ -276,13 +287,13 @@ def main():
 
         
 	plt.ion()
-	#for i in range(10):
-	#	fig, axes = plt.subplots(nrows=2, ncols=3,figsize=(12,6))
-	#	demo()
-	#	fig.tight_layout()
-	#	plt.pause(1)
-	#	plt.draw()
-	#	if i != 9:
-	#		plt.close()
+	for i in range(10):
+		fig, axes = plt.subplots(nrows=2, ncols=3,figsize=(12,6))
+		demo()
+		fig.tight_layout()
+		plt.pause(1)
+		plt.draw()
+		if i != 9:
+			plt.close()
   
 main()
