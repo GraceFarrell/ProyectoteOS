@@ -11,7 +11,6 @@ from queue import Queue
 from OrdenesAWS import Take_Orders
 from OrdenesAWS import Recieve_Orders
 from ClasesTaqueria import Orden
-from ClasesTaqueria import Taqueria
 from ClasesTaqueria import Cliente
 from ClasesTaqueria import Taquero
 
