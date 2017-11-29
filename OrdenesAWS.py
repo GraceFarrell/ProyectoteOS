@@ -8,8 +8,9 @@ def Take_Orders(orders):
 def Recieve_Orders():
 	sqs = boto3.client('sqs')
 	response = sqs.receive_message(QueueUrl = 'https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2')
-
-	recibos = []
+	receipt = response.getReceiptHandle()	
+	
+#	recibos = []
 	message_string = ""
 
 	for message in response["Messages"]:
@@ -19,4 +20,4 @@ def Recieve_Orders():
 ##	for r in recibos:
 ##		response = sqs.delete_message(QueueURL='https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2',ReceiptHandle=r)
 
-	return Take_Orders(message_string)
+	return Take_Orders(message_string), receipt
