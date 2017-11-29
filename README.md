@@ -1,14 +1,14 @@
-<h1> Operating Systems Project: Taqueria Simulation </h1>
-<p> This repository presents the documentation of our Operating Systems Final Project, which consists in simulate the way  "Tacos Franc" manage the orders of its customers.</p>		
+<h1> Operating Systems Project: Taco Shop "Tacos Franc" Simulation </h1>
+<p> This repository presents the documentation of our Operating Systems Final Project, which consists in simulating a taco shop's,   "Tacos Franc", order management.</p>		
 <h2> Table of Contents </h2>
 <UL type = disk> 
   <LI> <a href = "#1"> Pre-Requisites </a></LI>
   <LI> <a href = "#2"> Installation </a></LI>
-  <LI> <a href = "#3"> Algorithm </a></LI>
+  <LI> <a href = "#3"> Algorithms </a></LI>
   <LI> <a href = "#4"> Contribuitors </a></LI>
 </UL>
 <h2 id = "1"> 1. Pre-Requisites </h2>
-<p> This project was developed to run in Linux. To be able to run the project it is required to download the files of this repository. Likewise, it is important to have Python 3.6 or the newest version in your computer and some python modules. </p>
+<p> This project was developed to run in Linux. To be able to run the project it is required to download the files of this repository. Likewise, it is important to have Python 3.6 or the newest version in your computer, as well as some python modules. </p>
 <h2 id = "2"> 2. Installation </h2>
 <p> List of elements required to be installed to run the code </p>
 <UL type = disk> 
@@ -19,11 +19,11 @@
   <pre> sudo apt-get install pip-boto3</pre>
   <p> or </p>
   <pre> sudo pip3 install boto3 </pre>
-  <p> When boto3 is installed, it is required to create the next files and folder: </p>
+  <p> Once boto3 is installed, it is necessary to create the following: </p>
    <UL type = square> 
      <LI> Create a hidden folder in the home directory, called:</LI>
      <pre> .aws </pre>
-     <p> Inside the folder create two files called credentials and config. </p>
+     <p> Inside the folder create two files called credentials and config respectively. </p>
      <LI> credentials</LI>
      <pre> [default]
  aws_access_key_id=YOUR_ACCESS_KEY
@@ -42,7 +42,10 @@
   <pre> sudo pip3 install numpy </pre>
 </UL>
 <h2 id = "3"> 3. Algorithm </h2>
-<img src = "https://s.aolcdn.com/dims-global/dims3/GLOB/legacy_thumbnail/916x515/quality/95/https://s.blogcdn.com/slideshows/images/slides/715/583/5/S7155835/slug/l/roadster-front-34-1.jpg">
+<LI> <h4> Cocinar() Function Flowchart </h4></LI>
+<img src = "https://user-images.githubusercontent.com/18355966/33364892-33229d5e-d49b-11e7-88fe-0e76b9235fb8.png">
+<LI> <h4> Queue_Algorithm() Function Flowchart </h4></LI>
+<img src = https://user-images.githubusercontent.com/18355966/33364893-3337094c-d49b-11e7-9d28-d63f5e5d33a2.png>
 <h2 id = "4"> 4. Contribuitors </h2>
 <UL type = disk> 
   <LI> <a href = "https://github.com/Kohina-Arisato"> Ariana Inzunza </a> </LI>
