@@ -9,7 +9,7 @@ class Taquero:
 		self.low_priority = Queue()
 		self.min_priority = Queue()
 		self.waiting = Queue()
-		self.ingredientes = {"cebolla":500,"salsa":500,"cilantro":500,"frijoles":500,"guacamole":500,"tortillas":500}
+		self.ingredientes = {"Cebolla":500,"Salsa":500,"Cilantro":500,"Frijoles":500,"Guacamole":500,"Tortillas":500}
 		self.carnes = {}
 
 	def check_meat(self,orden,meat,how_many):
@@ -37,8 +37,8 @@ class Taqueria:
 class Orden:
 	def __init__(self,part_id,typee,meat,quantity,ingredients):
 		self.part_id = part_id
-		self.typee = typee
-		self.meat = meat
+		self.typee = typee.lower()
+		self.meat = meat.lower()
 		self.quantity = quantity
 		self.ingredients = ingredients
 		self.ready = False

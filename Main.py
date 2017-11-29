@@ -96,7 +96,7 @@ def getData(taquero_uno, taquero_dos, taquero_tres):
 
 	while len(try_Order) != counter:
 		try:
-			data = Recieve_Orders(sqs)
+			data = Recieve_Orders()
 		except:
 			h = ""
 
