@@ -92,17 +92,14 @@ def getData(taquero_uno, taquero_dos, taquero_tres):
 
 	while len(try_Order) != counter:
 		try:
-			sqs = boto3.client('sqs')
-			data = Recieve_Orders(sqs)
-			AgregandoClientes(data,Franc,clientes)
-			setMeats(taquero_uno, taquero_dos, taquero_tres)
+			data = Recieve_Orders()
 
 		except:
 			h = ""
-##        data = Take_Orders(inbound_Order)
-##		data = Take_Orders(try_Order[counter])
-##		AgregandoClientes(data,Franc,clientes)
-##		setMeats(taquero_uno, taquero_dos, taquero_tres)
+##		        data = Take_Orders(inbound_Order)
+##			data = Take_Orders(try_Order[counter])
+		AgregandoClientes(data,Franc,clientes)
+		setMeats(taquero_uno, taquero_dos, taquero_tres)
 		counter += 1
 
 def manejo_ingredientes(lock, orden, num, who, taquero, ingredient):
