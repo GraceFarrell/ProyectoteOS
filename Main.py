@@ -174,10 +174,7 @@ def cocinar(lock,taquero,time_slice,start_priority,next_priority):
 		orden.add_step("Running", "Working on order")
 		##print(orden.steps)
 
-def main():
-	threads = []
-##    start = tiempo()
-    
+def main():    
 	taquero_uno = Taquero() #Asada, veggie
 	taquero_uno.carnes["asada"]=50
 	taquero_uno.carnes["veggie"]=50
@@ -196,42 +193,34 @@ def main():
 	thread_getData = Thread(target=getData,args= (taquero_uno, taquero_dos, taquero_tres))
 	thread_getData.setDaemon(True)
 	thread_getData.start()
-	threads.append(thread_getData)
 
 	thread_uno = Thread(target=Queue_algorithm,args= (lock1,taquero_uno,))
 	thread_uno.setDaemon(True)
 	thread_uno.start()
-	threads.append(thread_uno)
 
 	tortillera_uno = Thread(target=Tortillera,args= (lock1,taquero_uno,))
 	tortillera_uno.setDaemon(True)
 	tortillera_uno.start()
-	threads.append(tortillera_uno)
 
 	thread_dos = Thread(target=Queue_algorithm,args= (lock2,taquero_dos,))
 	thread_dos.setDaemon(True)
 	thread_dos.start()
-	threads.append(thread_dos)
 
 	tortillera_dos = Thread(target=Tortillera,args= (lock2,taquero_dos,))
 	tortillera_dos.setDaemon(True)
 	tortillera_dos.start()
-	threads.append(tortillera_dos)
 
 	thread_tres = Thread(target=Queue_algorithm,args= (lock3,taquero_tres,))
 	thread_tres.setDaemon(True)
 	thread_tres.start()
-	threads.append(thread_tres)
 
 	tortillera_tres = Thread(target=Tortillera,args= (lock3,taquero_tres,))
 	tortillera_tres.setDaemon(True)
 	tortillera_tres.start()
-	threads.append(tortillera_tres)
 
 	thread_customer_ready = Thread(target=CustomerReady)
 	thread_customer_ready.setDaemon(True)
 	thread_customer_ready.start()
-	threads.append(thread_customer_ready)
 		
 	ingredientes = (1,2,3,4,5,6)
 	
