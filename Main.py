@@ -24,6 +24,10 @@ def CustomerReady():
 		for cliente in clientes:
 			if cliente.getCompletado():
 				#cliente.getSteps()
+				#cliente.getOrdenes()
+				times = cliente.getStartTime()
+				print(times[0])
+				print(times[1])
 				clientes.remove(cliente)
 				print("termine cliente")
 
@@ -57,52 +61,51 @@ def getData(taquero_uno, taquero_dos, taquero_tres):
 	inbound_Order = str({"datetime": "2017-01-01 23:23:23", "request_id": "123-123-123",
                    "orden": [ { "part_id": "123-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
                               { "part_id": "123-222", "type": "mulita", "meat": "lengua", "quantity": 1, "ingredients": []  },
-                              { "part_id": "123-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "aguacate", "salsa"]} ]})
+                              { "part_id": "123-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "guacamole", "salsa"]} ]})
 
 	try_Order = [str({"datetime": "2017-01-01 23:23:23", "request_id": "223-223-223",
                    "orden": [ { "part_id": "223-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
                               { "part_id": "223-222", "type": "mulita", "meat": "lengua", "quantity": 1, "ingredients": []  },
-                              { "part_id": "223-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "aguacate", "salsa"]} ]}), str({"datetime": "2017-01-01 23:23:23", "request_id": "323-323-323",
+                              { "part_id": "223-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "guacamole", "salsa"]} ]}), str({"datetime": "2017-01-01 23:23:23", "request_id": "323-323-323",
                    "orden": [ { "part_id": "323-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
                               { "part_id": "323-222", "type": "mulita", "meat": "asada", "quantity": 1, "ingredients": []  },
-                              { "part_id": "323-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "aguacate", "salsa"]} ]}), str({"datetime": "2017-01-01 23:23:23", "request_id": "423-423-423",
+                              { "part_id": "323-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "guacamole", "salsa"]} ]}), str({"datetime": "2017-01-01 23:23:23", "request_id": "423-423-423",
                    "orden": [ { "part_id": "423-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
                               { "part_id": "423-222", "type": "mulita", "meat": "asada", "quantity": 1, "ingredients": []  },
-                              { "part_id": "423-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "aguacate", "salsa"]} ]}), str({"datetime": "2017-01-01 23:23:23", "request_id": "523-523-523",
+                              { "part_id": "423-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "guacamole", "salsa"]} ]}), str({"datetime": "2017-01-01 23:23:23", "request_id": "523-523-523",
                    "orden": [ { "part_id": "523-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
                               { "part_id": "523-222", "type": "mulita", "meat": "asada", "quantity": 1, "ingredients": []  },
-                              { "part_id": "523-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "aguacate", "salsa"]} ]}), str({"datetime": "2017-01-01 23:23:23", "request_id": "623-623-623",
+                              { "part_id": "523-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "guacamole", "salsa"]} ]}), str({"datetime": "2017-01-01 23:23:23", "request_id": "623-623-623",
                    "orden": [ { "part_id": "623-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
                               { "part_id": "623-222", "type": "mulita", "meat": "asada", "quantity": 1, "ingredients": []  },
-                              { "part_id": "623-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "aguacate", "salsa"]} ]}), str({"datetime": "2017-01-01 23:23:23", "request_id": "723-723-723",
+                              { "part_id": "623-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "guacamole", "salsa"]} ]}), str({"datetime": "2017-01-01 23:23:23", "request_id": "723-723-723",
                    "orden": [ { "part_id": "723-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
                               { "part_id": "723-222", "type": "mulita", "meat": "asada", "quantity": 1, "ingredients": []  },
-                              { "part_id": "723-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "aguacate", "salsa"]} ]}), str({"datetime": "2017-01-01 23:23:23", "request_id": "823-823-823",
+                              { "part_id": "723-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "guacamole", "salsa"]} ]}), str({"datetime": "2017-01-01 23:23:23", "request_id": "823-823-823",
                    "orden": [ { "part_id": "823-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
                               { "part_id": "823-222", "type": "mulita", "meat": "asada", "quantity": 1, "ingredients": []  },
-                              { "part_id": "823-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "aguacate", "salsa"]} ]}), str({"datetime": "2017-01-01 23:23:23", "request_id": "923-923-923",
+                              { "part_id": "823-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "guacamole", "salsa"]} ]}), str({"datetime": "2017-01-01 23:23:23", "request_id": "923-923-923",
                    "orden": [ { "part_id": "923-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
                               { "part_id": "923-222", "type": "mulita", "meat": "asada", "quantity": 1, "ingredients": []  },
-                              { "part_id": "923-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "aguacate", "salsa"]} ]}), str({"datetime": "2017-01-01 23:23:23", "request_id": "023-023-023",
+                              { "part_id": "923-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "guacamole", "salsa"]} ]}), str({"datetime": "2017-01-01 23:23:23", "request_id": "023-023-023",
                    "orden": [ { "part_id": "023-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
                               { "part_id": "023-222", "type": "mulita", "meat": "asada", "quantity": 1, "ingredients": []  },
-                              { "part_id": "023-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "aguacate", "salsa"]} ]})]
+                              { "part_id": "023-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "guacamole", "salsa"]} ]})]
 
 	counter = 0
 
 	while len(try_Order) != counter:
 		try:
-			sqs = boto3.client('sqs')
-			data = Recieve_Orders(sqs)
+			data = Take_Orders(inbound_Order)
+			data = Take_Orders(try_Order[counter])
+
+##			sqs = boto3.client('sqs')
+##			data = Recieve_Orders(sqs)
 			AgregandoClientes(data,Franc,clientes)
 			setMeats(taquero_uno, taquero_dos, taquero_tres)
 
 		except:
 			h = ""
-##        data = Take_Orders(inbound_Order)
-##		data = Take_Orders(try_Order[counter])
-##		AgregandoClientes(data,Franc,clientes)
-##		setMeats(taquero_uno, taquero_dos, taquero_tres)
 		counter += 1
 
 def manejo_ingredientes(lock, orden, num, who, taquero, ingredient):
@@ -126,14 +129,14 @@ def Queue_algorithm(lock, taquero):
 	while True:
 		for small_orders in range(3):
 			if taquero.max_priority.empty() == False:
-				cocinar(lock,taquero,4,taquero.max_priority,taquero.med_priority)
+				cocinar(lock,taquero,2,taquero.max_priority,taquero.med_priority)
 
 		for medium_orders in range(2):                
 			if taquero.med_priority.empty() == False:
-				cocinar(lock,taquero,8,taquero.med_priority,taquero.low_priority)
+				cocinar(lock,taquero,4,taquero.med_priority,taquero.low_priority)
 
 		if taquero.low_priority.empty() == False:
-			cocinar(lock,taquero,16,taquero.low_priority,taquero.min_priority)
+			cocinar(lock,taquero,8,taquero.low_priority,taquero.min_priority)
 
 		if taquero.waiting.empty() == False or taquero.min_priority.empty() == False:
 			if taquero.waiting.empty() == False:
@@ -152,10 +155,10 @@ def Queue_algorithm(lock, taquero):
 
 				orden.step_end_time = str(datetime.datetime.now())
 				orden.add_step("Running", "Working on order")
-				print(orden.steps)
+				#print(orden.steps)
 
 			elif taquero.min_priority.empty() == False:
-				cocinar(lock,taquero,32,taquero.min_priority,taquero.waiting)
+				cocinar(lock,taquero,16,taquero.min_priority,taquero.waiting)
 
 def cocinar(lock,taquero,time_slice,start_priority,next_priority):
 	orden = start_priority.get()
@@ -192,7 +195,7 @@ def cocinar(lock,taquero,time_slice,start_priority,next_priority):
 
 		orden.step_end_time = str(datetime.datetime.now())
 		orden.add_step("Running", "Working on order")
-		print(orden.steps)
+		##print(orden.steps)
 
 def main():
 	threads = []
@@ -254,11 +257,13 @@ def main():
 	threads.append(thread_customer_ready)
 	
 	ingredientes = ("cebolla","salsa","cilantro","frijoles","guacamole","tortillas")
-	
+	nums = (1,2,3,4,5,6)
+
 	def demo(): 
 		valores = [taquero_uno.ingredientes["cebolla"],taquero_uno.ingredientes["salsa"],taquero_uno.ingredientes["cilantro"],taquero_uno.ingredientes["frijoles"],taquero_uno.ingredientes["guacamole"],taquero_uno.ingredientes["tortillas"]]
 		plt.subplot(2,2,1)
-		plt.bar(ingredientes,valores,align = "center",alpha = 0.5)
+		plt.bar(nums,valores,align = "center",alpha = 0.5)
+		plt.set_xticklabels(ingredientes)
 		
 		queues = ("Queue1", "Queue 2", "Queue 3", "Queue 3", "Queue 4", "Queue 5")
 		valores_2 = [taquero_uno.max_priority.qsize(),taquero_uno.med_priority.qsize(),taquero_uno.low_priority.qsize(),taquero_uno.min_priority.qsize(),taquero_uno.waiting.qsize()]    
@@ -266,7 +271,7 @@ def main():
 		plt.bar(queues,valores_2,align = "center",alpha = 0.5)
 
 		valores_3 = [taquero_dos.ingredientes["cebolla"],taquero_dos.ingredientes["salsa"],taquero_dos.ingredientes["cilantro"],taquero_dos.ingredientes["frijoles"],taquero_dos.ingredientes["guacamole"],taquero_dos.ingredientes["tortillas"]]
-		ingredientes_2 = ("cebolla","salsa","cilantro","frijoles","aguacate","tortillas")
+		ingredientes_2 = ("cebolla","salsa","cilantro","frijoles","guacamole","tortillas")
 		plt.subplot(2,2,3)
 		plt.bar(ingredientes_2,valores_3,align = "center",alpha = 0.5)
 
@@ -276,12 +281,12 @@ def main():
 		plt.subplot(2,2,4)
 		plt.bar(queues_2,valores_4,align = "center",alpha = 0.5)
 	plt.ion()
-	for i in range(0,100):
-		plt.figure(figsize=(10,6))
-		demo()
-		plt.pause(1)
-		plt.draw()
-		if i != 99:
-			plt.close()
+	#for i in range(0,100):
+	#	plt.figure(figsize=(10,6))
+	#	demo()
+	#	plt.pause(1)
+	#	plt.draw()
+	#	if i != 99:
+	#		plt.close()
     
 main()

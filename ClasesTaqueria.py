@@ -103,7 +103,7 @@ class Cliente:
 		self.idd=idd
 		self.numero_ordenes = 0
 		self.ordenes = self.addOrden(ordenes)
-		self.answer = {"start_time":"","end_time":""}
+		self.answer = {"start_time":"","end_time":"","steps":""}
 
 	def addOrden(self,orden):
 		ordenes = []
@@ -123,6 +123,17 @@ class Cliente:
 		for orden in self.ordenes:
 			for step in orden.steps:
 				print(step)
+
+	def getStartTime(self):
+		start_times = []
+		end_times = []
+		for orden in self.ordenes:
+			for step in orden.steps:
+				start_times.append(step["start_time"])
+				end_times.append(step["end_time"])		
+		start_time = min(start_times)
+		end_time = max(end_times)
+		return start_time, end_time
 
 	def getCompletado(self):
 		temp = 0
