@@ -13,7 +13,7 @@ def Recieve_Orders():
 	message_string = ""
 
 	for message in response["Messages"]:
-		print(message['Body'])
+#		print(message['Body'])
 		message_string = message['Body']
 
 ##	for r in recibos:

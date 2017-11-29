@@ -96,14 +96,14 @@ def Queue_algorithm(lock, taquero):
 	while True:
 		for small_orders in range(3):
 			if taquero.max_priority.empty() == False:
-				cocinar(lock,taquero,2,taquero.max_priority,taquero.med_priority)
+				cocinar(lock,taquero,.1,taquero.max_priority,taquero.med_priority)
 
 		for medium_orders in range(2):                
 			if taquero.med_priority.empty() == False:
-				cocinar(lock,taquero,4,taquero.med_priority,taquero.low_priority)
+				cocinar(lock,taquero,.2,taquero.med_priority,taquero.low_priority)
 
 		if taquero.low_priority.empty() == False:
-			cocinar(lock,taquero,8,taquero.low_priority,taquero.min_priority)
+			cocinar(lock,taquero,.4,taquero.low_priority,taquero.min_priority)
 
 		if taquero.waiting.empty() == False or taquero.min_priority.empty() == False:
 			if taquero.waiting.empty() == False:
@@ -125,7 +125,7 @@ def Queue_algorithm(lock, taquero):
 				#print(orden.steps)
 
 			elif taquero.min_priority.empty() == False:
-				cocinar(lock,taquero,16,taquero.min_priority,taquero.waiting)
+				cocinar(lock,taquero,.8,taquero.min_priority,taquero.waiting)
 
 def cocinar(lock,taquero,time_slice,start_priority,next_priority):
 	orden = start_priority.get()
@@ -227,36 +227,53 @@ def main():
 	
 	def demo():
 		plt.sca(axes[0, 0])
-		ingredientes = ("cebolla","salsa","cilantro","frijoles","guacamole","tortillas")
+		ingredientes = ("cebolla","salsa","cilantro","frijoles","aguacate","tortillas")
 		valores = [taquero_uno.ingredientes["Cebolla"],taquero_uno.ingredientes["Salsa"],taquero_uno.ingredientes["Cilantro"],taquero_uno.ingredientes["Frijoles"],taquero_uno.ingredientes["Guacamole"],taquero_uno.ingredientes["Tortillas"]]
 		plt.bar(range(6),valores,align = "center",alpha = 0.5)
-		plt.xticks(range(6), ingredientes, fontsize=8)
+		plt.xticks(range(6), ingredientes,fontsize = 8)
+		plt.yticks([100,200,300,400,500])
+		plt.title("Ingredientes Taquero 1")
 
-
-		plt.sca(axes[0,1])
+		plt.sca(axes[1,0])
 		eje = ("Queue 1","Queue 2","Queue 3","Queue 4","Queue 5")
 		valores_2 = [taquero_uno.max_priority.qsize(),taquero_uno.med_priority.qsize(),taquero_uno.low_priority.qsize(),taquero_uno.min_priority.qsize(),taquero_uno.waiting.qsize()]    
 		plt.bar(range(5),valores_2,align = "center",alpha = 0.5)
-		plt.xticks(range(6), eje, fontsize=8)
+		plt.xticks(range(6), eje,fontsize = 8)
+		plt.yticks([5,10,15,20,25])
+		plt.title("Queues Taquero 1")
 
 
-		plt.sca(axes[1,0])
+		plt.sca(axes[0,1])
 		valores_3 = [taquero_dos.ingredientes["Cebolla"],taquero_dos.ingredientes["Salsa"],taquero_dos.ingredientes["Cilantro"],taquero_dos.ingredientes["Frijoles"],taquero_dos.ingredientes["Guacamole"],taquero_dos.ingredientes["Tortillas"]]
 		ingredientes_2 = ("cebolla","salsa","cilantro","frijoles","aguacate","tortillas")
 		plt.bar(range(6),valores_3,align = "center",alpha = 0.5)
-		plt.xticks(range(6), ingredientes_2, fontsize=8)
+		plt.xticks(range(6), ingredientes_2,fontsize = 8)
+		plt.yticks([100,200,300,400,500])
+		plt.title("Ingredientes Taquero 2")
 
 		plt.sca(axes[1,1])
 		queues_2 = ("Queue 1","Queue 2","Queue 3","Queue 4","Queue 5")
 		valores_4 = [taquero_dos.max_priority.qsize(),taquero_dos.med_priority.qsize(),taquero_dos.low_priority.qsize(),taquero_dos.min_priority.qsize(),taquero_dos.waiting.qsize()]
 		plt.bar(range(5),valores_4,align = "center",alpha = 0.5)
-		plt.xticks(range(6), queues_2, fontsize=8)
-                
+		plt.xticks(range(6), queues_2,fontsize = 8)
+		plt.yticks([5,10,15,20,25])
+		plt.title("Queues Taquero 2")
+
 		plt.sca(axes[0,2])
 		valores_4 = [taquero_tres.ingredientes["Cebolla"],taquero_tres.ingredientes["Salsa"],taquero_tres.ingredientes["Cilantro"],taquero_tres.ingredientes["Frijoles"],taquero_tres.ingredientes["Guacamole"],taquero_tres.ingredientes["Tortillas"]]
 		ingredientes_3 = ("cebolla","salsa","cilantro","frijoles","aguacate","tortillas")
 		plt.bar(range(6),valores_4,align = "center",alpha = 0.5)
-		plt.xticks(range(6), ingredientes_3, fontsize=8)
+		plt.xticks(range(6), ingredientes_3,fontsize = 8)
+		plt.yticks([100,200,300,400,500])
+		plt.title("Ingredientes Taquero 3")
+
+		plt.sca(axes[1,2])
+		queues_3 = ("Queue 1","Queue 2","Queue 3","Queue 4","Queue 5")
+		valores_5 = [taquero_tres.max_priority.qsize(),taquero_tres.med_priority.qsize(),taquero_tres.low_priority.qsize(),taquero_tres.min_priority.qsize(),taquero_tres.waiting.qsize()]
+		plt.bar(range(5),valores_5,align = "center",alpha = 0.5)
+		plt.xticks(range(6), queues_3,fontsize = 8)
+		plt.yticks([5,10,15,20,25])
+		plt.title("Queues Taquero 3")
 
         
 	plt.ion()
