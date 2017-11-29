@@ -23,13 +23,13 @@ def CustomerReady():
 	while True:
 		for cliente in clientes:
 			if cliente.getCompletado():
-				#cliente.getSteps()
-				#cliente.getOrdenes()
 				times = cliente.getStartTime()
-				print(times[0])
-				print(times[1])
+				cliente.answer["start_time"] = times[0]
+				cliente.answer["end_time"] = times[1]
+				cliente.answer["steps"] = cliente.getSteps()
 				clientes.remove(cliente)
 				print("termine cliente")
+				print(cliente.answer)
 
 def AgregandoClientes(cliente,taqueria,clientes):
 	customer = Cliente(cliente["datetime"],cliente["request_id"],cliente["orden"])
@@ -80,7 +80,7 @@ def manejo_ingredientes(lock, orden, num, who, taquero, ingredient):
 	if who==1:
 		for ingredient in orden.ingredients:
 			taquero.ingredientes[ingredient]-=num
-		taquero.ingredientes["Tortillas"]-=num
+		taquero.ingredientes["Tortillas"]-=1
 	else:
 		taquero.ingredientes[ingredient]+=num 
 		time.sleep(1)

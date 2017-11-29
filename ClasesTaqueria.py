@@ -120,10 +120,11 @@ class Cliente:
 		return self.ordenes
 
 	def getSteps(self):
+		total_steps = []
 		for orden in self.ordenes:
-			for step in orden.steps:
-				print(step)
-
+			total_steps.extend(orden.steps)
+		return total_steps
+				
 	def getStartTime(self):
 		start_times = []
 		end_times = []
