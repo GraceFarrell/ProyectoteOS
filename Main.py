@@ -23,13 +23,14 @@ def CustomerReady():
 	while True:
 		for cliente in clientes:
 			if cliente.getCompletado():
-				print(cliente.getAnswer())
+#				print(cliente.getAnswer())
 				clientes.remove(cliente)
 				print("termine cliente")
 
-def AgregandoClientes(cliente,taqueria,clientes):
+def AgregandoClientes(cliente,taqueria,clientes,receipt):
 	customer = Cliente(cliente["datetime"],cliente["request_id"],cliente["orden"])
 	customer.orden = cliente
+	customer.receipt = receipt
 	clientes.append(customer)
 
 	for orden in customer.getOrdenes():
@@ -64,11 +65,12 @@ def getData(taquero_uno, taquero_dos, taquero_tres):
 
 	while 10 != counter:
 		try:
-			data = Recieve_Orders()
+			data,receipt = Recieve_Orders()
+			print(receipt)
 		except:
 			h = ""
 
-		AgregandoClientes(data,Franc,clientes)
+		AgregandoClientes(data,Franc,clientes,receipt)
 		setMeats(taquero_uno, taquero_dos, taquero_tres)
 		counter += 1
 
