@@ -42,10 +42,12 @@
   <pre> sudo pip3 install numpy </pre>
 </UL>
 <h2 id = "3"> 3. Algorithm </h2>
+<UL type = disk>
 <LI> <h4> Cocinar() Function Flowchart </h4></LI>
 <img src = "https://user-images.githubusercontent.com/18355966/33364892-33229d5e-d49b-11e7-88fe-0e76b9235fb8.png">
 <LI> <h4> Queue_Algorithm() Function Flowchart </h4></LI>
 <img src = https://user-images.githubusercontent.com/18355966/33364893-3337094c-d49b-11e7-9d28-d63f5e5d33a2.png>
+</UL>
 <h2 id = "4"> 4. Contribuitors </h2>
 <UL type = disk> 
   <LI> <a href = "https://github.com/Kohina-Arisato"> Ariana Inzunza </a> </LI>
