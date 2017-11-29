@@ -128,7 +128,7 @@ class Cliente:
 		self.answer["steps"] = self.getSteps()
 		self.orden["answer"] = self.answer
 ##		return start_time, end_time
-		return orden
+		return self.orden
 
 	def getOrdenesSize(self):
 		return self.numero_ordenes
