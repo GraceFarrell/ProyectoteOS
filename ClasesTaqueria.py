@@ -23,17 +23,6 @@ class Taquero:
 
 		self.carnes[meat] -= how_many
 
-class Taqueria:
-    	def __init__(self):
-        	self.clientes = []
-        	self.numero_clientes= 0 
-
-    	def addCliente(self):
-        	self.numero_clientes += 1
-
-    	def getClientes(self):
-        	return self.numero_clientes
-
 class Orden:
 	def __init__(self,part_id,typee,meat,quantity,ingredients):
 		self.part_id = part_id
@@ -69,15 +58,15 @@ class Orden:
 
 	def setTimeByType(self):
 		if self.typee == "taco":
-			return 1
+			return .1
 		elif self.typee == "quesadilla":
-			return 3
+			return .3
 		elif self.typee == "mulita":
-			return 3
+			return .3
 		elif self.typee == "tostada":
-			return 2
+			return .2
 		elif self.typee == "vampiro":
-			return 3
+			return .3
 		elif self.typee == "orden":
 			return self.toPrepare
 
@@ -92,16 +81,12 @@ class Orden:
 
 	def __iter__(self):
 		return self
-
-	def getSteps(self):
-		for step in self.steps:
-			print(step)
  
 class Cliente:
 	def __init__(self,date,idd,ordenes):
 		self.date=date
 		self.idd=idd
-		self.numero_ordenes = 0
+		self.numero_ordenes = 0 
 		self.ordenes = self.addOrden(ordenes)
 		self.orden = {}
 		self.answer = {"start_time":"","end_time":"","steps":""}
@@ -122,13 +107,10 @@ class Cliente:
 			for step in orden.steps:
 				start_times.append(step["start_time"])
 				end_times.append(step["end_time"])		
-##		start_time = min(start_times)
-##		end_time = max(end_times)
 		self.answer["start_time"] = min(start_times)
 		self.answer["end_time"] = max(end_times)
 		self.answer["steps"] = self.getSteps()
 		self.orden["answer"] = self.answer
-##		return start_time, end_time
 		return self.orden
 
 	def getOrdenesSize(self):

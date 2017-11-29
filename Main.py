@@ -16,10 +16,9 @@ from ClasesTaqueria import Cliente
 from ClasesTaqueria import Taquero
 
 ordenes_taqueria = Queue()
-clientes = []
-Franc = Taqueria()
+clientes = [] 
 
-# Revisa si el cliente esta listo para salir de la taqueria,
+# Revisa si la orden del cliente esta completa,
 # Tambien elimina el mensaje del SQS y envia la respuesta
 def CustomerReady():
 	while True:
@@ -29,11 +28,11 @@ def CustomerReady():
 				sqs.delete_message(QueueUrl='https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2',ReceiptHandle=cliente.receipt)
 				sqs.send_message(QueueUrl='https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2',MessageBody=str(cliente.getAnswer()))
 				clientes.remove(cliente)
-				print("termine cliente")
+				print("Termine cliente." + "\t" + cliente.idd)
 
 # Crea al cliente y le asigna sus ordenes,
 # Cada orden es una instancia de la Clase Orden
-def AgregandoClientes(cliente,taqueria,clientes,receipt):
+def AgregandoClientes(cliente,clientes,receipt):
 	customer = Cliente(cliente["datetime"],cliente["request_id"],cliente["orden"])
 	customer.orden = cliente
 	customer.receipt = receipt
@@ -41,7 +40,6 @@ def AgregandoClientes(cliente,taqueria,clientes,receipt):
 
 	for orden in customer.getOrdenes():
 		ordenes_taqueria.put(orden)
-	taqueria.addCliente()
 
 # Toma una orden del queue de ordenes de toda la taqueria y lo envia
 # al queue del taquero correspondiente dependiendo el tipo de carne 
@@ -62,36 +60,30 @@ def setMeats(taquero_uno, taquero_dos, taquero_tres):
 			taquero_tres.max_priority.put(meat)
 		elif meat.getMeat() == "suadero":
 			taquero_tres.max_priority.put(meat)
-# Obtiene los mensajes del SQS que posteriormente senran clientes y dentro
+
+# Obtiene los mensajes del SQS que posteriormente seran clientes y dentro
 # del cliente estaran sus ordenes
 def getData(taquero_uno, taquero_dos, taquero_tres):
 
-	counter = 0
-
-	while 10 != counter:
+	while True:
 		try:
 			data,receipt = Recieve_Orders()
-			#print(receipt)
-			AgregandoClientes(data,Franc,clientes,receipt)
+			AgregandoClientes(data,clientes,receipt)
 			setMeats(taquero_uno, taquero_dos, taquero_tres)
 		except:
-			h = ""
+			print ("No puede obtener nada del SQS.")
 
-		counter += 1
-
-# Esta funcion disminuye los ingrdientes cuando una orden es procesada, 
+# Esta funcion disminuye los ingredientes cuando una orden es procesada, 
 # tambien se encarga de volver a proveer los ingredientes una vez que 
 # existan pocos. 
 def manejo_ingredientes(lock, orden, num, who, taquero, ingredient):
 	lock.acquire()
 	if who==1:
+		taquero.ingredientes["Tortillas"]-=num
 		for ingredient in orden.ingredients:
-			if ingredient=="Tortillas":
-				taquero.ingredientes["Tortillas"]-=num
-			else:
-				taquero.ingredientes[ingredient]-=(num*10)
+			taquero.ingredientes[ingredient]-=(num*10)
 	else:
-		taquero.ingredientes[ingredient]+=50 
+		taquero.ingredientes[ingredient]+=num 
 		time.sleep(1)
 	lock.release()
         
@@ -156,7 +148,6 @@ def cocinar(lock,taquero,time_slice,start_priority,next_priority):
 		manejo_ingredientes(lock, orden, how_many, 1, taquero, False)
 		orden.toPrepare -= how_many
 
-		##orden.steps.append("Paused") 
 		time.sleep(time_slice)
 		next_priority.put(orden)
 
@@ -172,19 +163,18 @@ def cocinar(lock,taquero,time_slice,start_priority,next_priority):
 
 		orden.step_end_time = str(datetime.datetime.now())
 		orden.add_step("Running", "Working on order")
-		##print(orden.steps)
 
 def main():    
 	taquero_uno = Taquero() #Asada, veggie
-	taquero_uno.carnes["asada"]=50
-	taquero_uno.carnes["veggie"]=50
+	taquero_uno.carnes["asada"]=500
+	taquero_uno.carnes["veggie"]=500
 	taquero_dos = Taquero() #Adobada, tripa
-	taquero_dos.carnes["adobada"]=50
-	taquero_dos.carnes["tripa"]=50
+	taquero_dos.carnes["adobada"]=500
+	taquero_dos.carnes["tripa"]=500
 	taquero_tres = Taquero() #Lengua, cabeza, suadero
-	taquero_tres.carnes["lengua"]=50
-	taquero_tres.carnes["cabeza"]=50
-	taquero_tres.carnes["suadero"]=50
+	taquero_tres.carnes["lengua"]=500
+	taquero_tres.carnes["cabeza"]=500
+	taquero_tres.carnes["suadero"]=500
 	
 	lock1 = threading.Lock()
 	lock2 = threading.Lock()
@@ -270,19 +260,17 @@ def main():
 		queues_3 = ("Queue 1","Queue 2","Queue 3","Queue 4","Queue 5")
 		valores_5 = [taquero_tres.max_priority.qsize(),taquero_tres.med_priority.qsize(),taquero_tres.low_priority.qsize(),taquero_tres.min_priority.qsize(),taquero_tres.waiting.qsize()]
 		plt.bar(range(5),valores_5,align = "center",alpha = 0.5)
-		plt.xticks(range(6), queues_3,fontsize = 8)
+		plt.xticks(range(5), queues_3,fontsize = 8)
 		plt.yticks([5,10,15,20,25])
 		plt.title("Queues Taquero 3")
-
-        
+       
 	plt.ion()
-	for i in range(10):
+	while True:
 		fig, axes = plt.subplots(nrows=2, ncols=3,figsize=(12,6))
 		demo()
 		fig.tight_layout()
 		plt.pause(1)
 		plt.draw()
-		if i != 9:
-			plt.close()
+		plt.close()
   
 main()

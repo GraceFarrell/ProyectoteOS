@@ -9,10 +9,10 @@ def Recieve_Orders():
 	sqs = boto3.client('sqs')
 	response = sqs.receive_message(QueueUrl = 'https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2')
 	
-	message_string = ""
+#	message_string = ""
 
-	for message in response["Messages"]:
-		message_string = message['Body']
-		receipt = message["ReceiptHandle"]
+#	for message in response["Messages"]:
+	message_string = response["Messages"][0]['Body']
+	receipt = response["Messages"][0]["ReceiptHandle"]
 
 	return Take_Orders(message_string), receipt
