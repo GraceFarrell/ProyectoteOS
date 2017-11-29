@@ -1,5 +1,5 @@
 import json
-#import boto3
+import boto3
 def Take_Orders(orders):
     orders = orders.replace("'", "\"")    
     data = json.loads(orders)  
@@ -12,7 +12,6 @@ def Recieve_Orders(sqs):
 	message_string = ""
 
 	for message in response["Messages"]:
-		message.append(message)
 		print(message['Body'])
 		message_string = message['Body']
 
