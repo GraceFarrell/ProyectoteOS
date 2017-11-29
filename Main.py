@@ -66,12 +66,12 @@ def getData(taquero_uno, taquero_dos, taquero_tres):
 	while 10 != counter:
 		try:
 			data,receipt = Recieve_Orders()
+			AgregandoClientes(data,Franc,clientes,receipt)
+			setMeats(taquero_uno, taquero_dos, taquero_tres)
 			print(receipt)
 		except:
 			h = ""
 
-		AgregandoClientes(data,Franc,clientes,receipt)
-		setMeats(taquero_uno, taquero_dos, taquero_tres)
 		counter += 1
 
 def manejo_ingredientes(lock, orden, num, who, taquero, ingredient):
