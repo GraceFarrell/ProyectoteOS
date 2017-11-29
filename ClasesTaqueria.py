@@ -105,6 +105,7 @@ class Cliente:
 		self.ordenes = self.addOrden(ordenes)
 		self.orden = {}
 		self.answer = {"start_time":"","end_time":"","steps":""}
+		self.receipt = ""
 
 	def addOrden(self,orden):
 		ordenes = []
