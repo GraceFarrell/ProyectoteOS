@@ -23,7 +23,9 @@ def CustomerReady():
 	while True:
 		for cliente in clientes:
 			if cliente.getCompletado():
-#				print(cliente.getAnswer())
+				sqs = boto3.client('sqs')
+				sqs.delete_message(QueueUrl='https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2',ReceiptHandle=cliente.receipt)
+				sqs.send_message(QueueUrl='https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2',MessageBody=str(cliente.getAnswer()))
 				clientes.remove(cliente)
 				print("termine cliente")
 
@@ -56,19 +58,15 @@ def setMeats(taquero_uno, taquero_dos, taquero_tres):
 			taquero_tres.max_priority.put(meat)
 
 def getData(taquero_uno, taquero_dos, taquero_tres):
-	inbound_Order = str({"datetime": "2017-01-01 23:23:23", "request_id": "123-123-123",
-                   "orden": [ { "part_id": "123-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
-                              { "part_id": "123-222", "type": "mulita", "meat": "lengua", "quantity": 1, "ingredients": []  },
-                              { "part_id": "123-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "guacamole", "salsa"]} ]})
 
 	counter = 0
 
 	while 10 != counter:
 		try:
 			data,receipt = Recieve_Orders()
+			print(receipt)
 			AgregandoClientes(data,Franc,clientes,receipt)
 			setMeats(taquero_uno, taquero_dos, taquero_tres)
-			print(receipt)
 		except:
 			h = ""
 
@@ -78,10 +76,12 @@ def manejo_ingredientes(lock, orden, num, who, taquero, ingredient):
 	lock.acquire()
 	if who==1:
 		for ingredient in orden.ingredients:
-			taquero.ingredientes[ingredient]-=num
-		taquero.ingredientes["Tortillas"]-=1
+			if ingredient=="Tortillas":
+				taquero.ingredientes["Tortillas"]-=num
+			else:
+				taquero.ingredientes[ingredient]-=(num*10)
 	else:
-		taquero.ingredientes[ingredient]+=num 
+		taquero.ingredientes[ingredient]+=50 
 		time.sleep(1)
 	lock.release()
             
@@ -114,7 +114,7 @@ def Queue_algorithm(lock, taquero):
 				
 				orden.step_start_time = str(datetime.datetime.now())           
 				taquero.check_meat(orden,orden.meat,orden.toPrepare)
-				manejo_ingredientes(lock,orden,50,1,taquero,False)
+				manejo_ingredientes(lock,orden,orden.toPrepare,1,taquero,False)
 				time_slice = orden.current_total_time 
 				time.sleep(time_slice)
 				orden.ready = True
@@ -142,7 +142,7 @@ def cocinar(lock,taquero,time_slice,start_priority,next_priority):
 
 	if how_many < toPrepare:
 		taquero.check_meat(orden,orden.meat,how_many)
-		manejo_ingredientes(lock, orden, 50, 1, taquero, False)
+		manejo_ingredientes(lock, orden, how_many, 1, taquero, False)
 		orden.toPrepare -= how_many
 
 		##orden.steps.append("Paused") 
@@ -154,7 +154,7 @@ def cocinar(lock,taquero,time_slice,start_priority,next_priority):
  
 	else:
 		taquero.check_meat(orden,orden.meat,toPrepare)
-		manejo_ingredientes(lock, orden, 50, 1, taquero, False)
+		manejo_ingredientes(lock, orden, toPrepare, 1, taquero, False)
 
 		time.sleep(orden.current_total_time)
 		orden.ready = True
@@ -276,13 +276,13 @@ def main():
 
         
 	plt.ion()
-	for i in range(10):
-		fig, axes = plt.subplots(nrows=2, ncols=3,figsize=(12,6))
-		demo()
-		fig.tight_layout()
-		plt.pause(1)
-		plt.draw()
-		if i != 9:
-			plt.close()
+	#for i in range(10):
+	#	fig, axes = plt.subplots(nrows=2, ncols=3,figsize=(12,6))
+	#	demo()
+	#	fig.tight_layout()
+	#	plt.pause(1)
+	#	plt.draw()
+	#	if i != 9:
+	#		plt.close()
   
 main()
