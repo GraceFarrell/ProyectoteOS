@@ -63,38 +63,9 @@ def getData(taquero_uno, taquero_dos, taquero_tres):
                               { "part_id": "123-222", "type": "mulita", "meat": "lengua", "quantity": 1, "ingredients": []  },
                               { "part_id": "123-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "guacamole", "salsa"]} ]})
 
-	try_Order = [str({"datetime": "2017-01-01 23:23:23", "request_id": "223-223-223",
-                   "orden": [ { "part_id": "223-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
-                              { "part_id": "223-222", "type": "mulita", "meat": "lengua", "quantity": 1, "ingredients": []  },
-                              { "part_id": "223-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "guacamole", "salsa"]} ]}), str({"datetime": "2017-01-01 23:23:23", "request_id": "323-323-323",
-                   "orden": [ { "part_id": "323-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
-                              { "part_id": "323-222", "type": "mulita", "meat": "asada", "quantity": 1, "ingredients": []  },
-                              { "part_id": "323-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "guacamole", "salsa"]} ]}), str({"datetime": "2017-01-01 23:23:23", "request_id": "423-423-423",
-                   "orden": [ { "part_id": "423-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
-                              { "part_id": "423-222", "type": "mulita", "meat": "asada", "quantity": 1, "ingredients": []  },
-                              { "part_id": "423-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "guacamole", "salsa"]} ]}), str({"datetime": "2017-01-01 23:23:23", "request_id": "523-523-523",
-                   "orden": [ { "part_id": "523-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
-                              { "part_id": "523-222", "type": "mulita", "meat": "asada", "quantity": 1, "ingredients": []  },
-                              { "part_id": "523-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "guacamole", "salsa"]} ]}), str({"datetime": "2017-01-01 23:23:23", "request_id": "623-623-623",
-                   "orden": [ { "part_id": "623-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
-                              { "part_id": "623-222", "type": "mulita", "meat": "asada", "quantity": 1, "ingredients": []  },
-                              { "part_id": "623-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "guacamole", "salsa"]} ]}), str({"datetime": "2017-01-01 23:23:23", "request_id": "723-723-723",
-                   "orden": [ { "part_id": "723-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
-                              { "part_id": "723-222", "type": "mulita", "meat": "asada", "quantity": 1, "ingredients": []  },
-                              { "part_id": "723-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "guacamole", "salsa"]} ]}), str({"datetime": "2017-01-01 23:23:23", "request_id": "823-823-823",
-                   "orden": [ { "part_id": "823-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
-                              { "part_id": "823-222", "type": "mulita", "meat": "asada", "quantity": 1, "ingredients": []  },
-                              { "part_id": "823-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "guacamole", "salsa"]} ]}), str({"datetime": "2017-01-01 23:23:23", "request_id": "923-923-923",
-                   "orden": [ { "part_id": "923-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
-                              { "part_id": "923-222", "type": "mulita", "meat": "asada", "quantity": 1, "ingredients": []  },
-                              { "part_id": "923-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "guacamole", "salsa"]} ]}), str({"datetime": "2017-01-01 23:23:23", "request_id": "023-023-023",
-                   "orden": [ { "part_id": "023-111",  "type": "taco", "meat": "asada", "quantity": 3, "ingredients": [ "cebolla", "salsa"] },
-                              { "part_id": "023-222", "type": "mulita", "meat": "asada", "quantity": 1, "ingredients": []  },
-                              { "part_id": "023-333", "type": "quesadilla", "meat": "adobada", "quantity": 2, "ingredients": ["cebolla", "guacamole", "salsa"]} ]})]
-
 	counter = 0
 
-	while len(try_Order) != counter:
+	while 10 != counter:
 		try:
 			data = Recieve_Orders()
 		except:
@@ -109,7 +80,7 @@ def manejo_ingredientes(lock, orden, num, who, taquero, ingredient):
 	if who==1:
 		for ingredient in orden.ingredients:
 			taquero.ingredientes[ingredient]-=num
-		taquero.ingredientes["tortillas"]-=num
+		taquero.ingredientes["Tortillas"]-=num
 	else:
 		taquero.ingredientes[ingredient]+=num 
 		time.sleep(1)
@@ -254,48 +225,48 @@ def main():
 		
 	ingredientes = (1,2,3,4,5,6)
 	
-        def demo():
-                plt.sca(axes[0, 0])
-                ingredientes = ("cebolla","salsa","cilantro","frijoles","guacamole","tortillas")
-                valores = [taquero_uno.ingredientes["cebolla"],taquero_uno.ingredientes["salsa"],taquero_uno.ingredientes["cilantro"],taquero_uno.ingredientes["frijoles"],taquero_uno.ingredientes["guacamole"],taquero_uno.ingredientes["tortillas"]]
-                plt.bar(range(6),valores,align = "center",alpha = 0.5)
-                plt.xticks(range(6), ingredientes, color='red')
+	def demo():
+		plt.sca(axes[0, 0])
+		ingredientes = ("cebolla","salsa","cilantro","frijoles","guacamole","tortillas")
+		valores = [taquero_uno.ingredientes["Cebolla"],taquero_uno.ingredientes["Salsa"],taquero_uno.ingredientes["Cilantro"],taquero_uno.ingredientes["Frijoles"],taquero_uno.ingredientes["Guacamole"],taquero_uno.ingredientes["Tortillas"]]
+		plt.bar(range(6),valores,align = "center",alpha = 0.5)
+		plt.xticks(range(6), ingredientes, fontsize=8)
 
 
-                plt.sca(axes[0,1])
-                eje = ("Queue 1","Queue 2","Queue 3","Queue 4","Queue 5")
-                valores_2 = [taquero_uno.max_priority.qsize(),taquero_uno.med_priority.qsize(),taquero_uno.low_priority.qsize(),taquero_uno.min_priority.qsize(),taquero_uno.waiting.qsize()]    
-                plt.bar(range(5),valores_2,align = "center",alpha = 0.5)
-                plt.xticks(range(6), eje, color='red')
+		plt.sca(axes[0,1])
+		eje = ("Queue 1","Queue 2","Queue 3","Queue 4","Queue 5")
+		valores_2 = [taquero_uno.max_priority.qsize(),taquero_uno.med_priority.qsize(),taquero_uno.low_priority.qsize(),taquero_uno.min_priority.qsize(),taquero_uno.waiting.qsize()]    
+		plt.bar(range(5),valores_2,align = "center",alpha = 0.5)
+		plt.xticks(range(6), eje, fontsize=8)
 
 
-                plt.sca(axes[1,0])
-                valores_3 = [taquero_dos.ingredientes["cebolla"],taquero_dos.ingredientes["salsa"],taquero_dos.ingredientes["cilantro"],taquero_dos.ingredientes["frijoles"],taquero_dos.ingredientes["guacamole"],taquero_dos.ingredientes["tortillas"]]
-                ingredientes_2 = ("cebolla","salsa","cilantro","frijoles","aguacate","tortillas")
-                plt.bar(range(6),valores_3,align = "center",alpha = 0.5)
-                plt.xticks(range(6), ingredientes_2, color='red')
+		plt.sca(axes[1,0])
+		valores_3 = [taquero_dos.ingredientes["Cebolla"],taquero_dos.ingredientes["Salsa"],taquero_dos.ingredientes["Cilantro"],taquero_dos.ingredientes["Frijoles"],taquero_dos.ingredientes["Guacamole"],taquero_dos.ingredientes["Tortillas"]]
+		ingredientes_2 = ("cebolla","salsa","cilantro","frijoles","aguacate","tortillas")
+		plt.bar(range(6),valores_3,align = "center",alpha = 0.5)
+		plt.xticks(range(6), ingredientes_2, fontsize=8)
 
-                plt.sca(axes[1,1])
-                queues_2 = ("Queue 1","Queue 2","Queue 3","Queue 4","Queue 5")
-                valores_4 = [taquero_dos.max_priority.qsize(),taquero_dos.med_priority.qsize(),taquero_dos.low_priority.qsize(),taquero_dos.min_priority.qsize(),taquero_dos.waiting.qsize()]
-                plt.bar(range(5),valores_4,align = "center",alpha = 0.5)
-                plt.xticks(range(6), queues_2, color='red')
+		plt.sca(axes[1,1])
+		queues_2 = ("Queue 1","Queue 2","Queue 3","Queue 4","Queue 5")
+		valores_4 = [taquero_dos.max_priority.qsize(),taquero_dos.med_priority.qsize(),taquero_dos.low_priority.qsize(),taquero_dos.min_priority.qsize(),taquero_dos.waiting.qsize()]
+		plt.bar(range(5),valores_4,align = "center",alpha = 0.5)
+		plt.xticks(range(6), queues_2, fontsize=8)
                 
-                plt.sca(axes[0,2])
-                valores_4 = [taquero_tres.ingredientes["cebolla"],taquero_tres.ingredientes["salsa"],taquero_tres.ingredientes["cilantro"],taquero_tres.ingredientes["frijoles"],taquero_tres.ingredientes["guacamole"],taquero_tres.ingredientes["tortillas"]]
-                ingredientes_3 = ("cebolla","salsa","cilantro","frijoles","aguacate","tortillas")
-                plt.bar(range(6),valores_4,align = "center",alpha = 0.5)
-                plt.xticks(range(6), ingredientes_3, color='red')
+		plt.sca(axes[0,2])
+		valores_4 = [taquero_tres.ingredientes["Cebolla"],taquero_tres.ingredientes["Salsa"],taquero_tres.ingredientes["Cilantro"],taquero_tres.ingredientes["Frijoles"],taquero_tres.ingredientes["Guacamole"],taquero_tres.ingredientes["Tortillas"]]
+		ingredientes_3 = ("cebolla","salsa","cilantro","frijoles","aguacate","tortillas")
+		plt.bar(range(6),valores_4,align = "center",alpha = 0.5)
+		plt.xticks(range(6), ingredientes_3, fontsize=8)
 
         
-        plt.ion()
-        for i in range(10):
-                fig, axes = plt.subplots(nrows=2, ncols=3)
-                demo()
-                fig.tight_layout()
-                plt.pause(1)
-                plt.draw()
-                if i != 9:
-                        plt.close()
+	plt.ion()
+	for i in range(10):
+		fig, axes = plt.subplots(nrows=2, ncols=3,figsize=(12,6))
+		demo()
+		fig.tight_layout()
+		plt.pause(1)
+		plt.draw()
+		if i != 9:
+			plt.close()
   
 main()
