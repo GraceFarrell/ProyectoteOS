@@ -23,16 +23,13 @@ def CustomerReady():
 	while True:
 		for cliente in clientes:
 			if cliente.getCompletado():
-				times = cliente.getStartTime()
-				cliente.answer["start_time"] = times[0]
-				cliente.answer["end_time"] = times[1]
-				cliente.answer["steps"] = cliente.getSteps()
+				print(cliente.getAnswer())
 				clientes.remove(cliente)
 				print("termine cliente")
-				print(cliente.answer)
 
 def AgregandoClientes(cliente,taqueria,clientes):
 	customer = Cliente(cliente["datetime"],cliente["request_id"],cliente["orden"])
+	customer.orden = cliente
 	clientes.append(customer)
 
 	for orden in customer.getOrdenes():
