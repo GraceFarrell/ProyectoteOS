@@ -25,7 +25,7 @@ def CustomerReady():
 			if cliente.getCompletado():
 				sqs = boto3.client('sqs')
 				sqs.delete_message(QueueUrl='https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2',ReceiptHandle=cliente.receipt)
-				sqs.send_message(QueueUrl='https://sqs.us-east-1.amazonaws.com/292274580527/cc406_team2',MessageBody=str(cliente.getAnswer()))
+				sqs.send_message(QueueUrl='https://sqs.us-east-1.amazonaws.com/292274580527/cc406_response2',MessageBody=str(cliente.getAnswer()))
 				clientes.remove(cliente)
 				print("Termine cliente." + "\t" + cliente.idd)
 
