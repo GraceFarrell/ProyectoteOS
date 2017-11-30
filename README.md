@@ -46,7 +46,7 @@
 <LI> <h4> Cocinar() Function Flowchart </h4></LI>
 <img src = "https://user-images.githubusercontent.com/18355966/33364892-33229d5e-d49b-11e7-88fe-0e76b9235fb8.png">
 <LI> <h4> Cocinar() Pseudocode </h4></LI>
-<pre> Get suborder from queue
+<pre>Get suborder from queue
 Set time of preparation by type of suborder
 toPrepare = number of tacos/quesadillas/etc… left to prepare
 how_many = number of tacos/quesadillas/etc… that can be prepared in given time slice
@@ -58,9 +58,9 @@ If how_many < toPrepare:
 		continue
 	for each ingredient needed, decrement inventory by how_many*10
 	Decrement tortillas by how_many
-Prepare how_many from suborder
-Decrement toPrepare by how_many
-Change suborder priority
+	Prepare how_many from suborder
+	Decrement toPrepare by how_many
+	Change suborder priority
 else:
 	Check for meat
 	if not enough meat:
@@ -87,7 +87,7 @@ if the waiting queue is not empty or the min priority queue is not empty:
 		if the waiting queue is not empty:
 			work on the first order in the queue for as long as it takes to finish
 			complete suborder
-	else if min priority queue is not empty:
+		else if min priority queue is not empty:
 			work on the first order in queue for 1.6 seconds
 </pre>
 </UL>
