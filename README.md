@@ -77,18 +77,18 @@ else:
 <pre>while true:
 for the first three orders in maximum priority queue:
 		if the queue is not empty:
-			work on each order for 0.2 seconds
+			work on each order for 0.1 seconds
 for the first two orders in medium priority queue:
 		if the queue is not empty:
-			work on each order for 0.4 seconds
+			work on each order for 0.2 seconds
 if the low priority queue is not empty:
-		work on the first  order in queue for 0.8 seconds
+		work on the first  order in queue for 0.4 seconds
 if the waiting queue is not empty or the min priority queue is not empty:
 		if the waiting queue is not empty:
 			work on the first order in the queue for as long as it takes to finish
 			complete suborder
 		else if min priority queue is not empty:
-			work on the first order in queue for 1.6 seconds
+			work on the first order in queue for 0.8 seconds
 </pre>
 </UL>
 <h2 id = "4"> 4. Contribuitors </h2>
