@@ -45,8 +45,51 @@
 <UL type = disk>
 <LI> <h4> Cocinar() Function Flowchart </h4></LI>
 <img src = "https://user-images.githubusercontent.com/18355966/33364892-33229d5e-d49b-11e7-88fe-0e76b9235fb8.png">
+<LI> <h4> Cocinar() Pseudocode </h4></LI>
+<pre> Get suborder from queue
+Set time of preparation by type of suborder
+toPrepare = number of tacos/quesadillas/etc… left to prepare
+how_many = number of tacos/quesadillas/etc… that can be prepared in given time slice
+If how_many < toPrepare:
+	Check for meat
+	if not enough meat:
+		pause suborder
+		prepare meat
+		continue
+	for each ingredient needed, decrement inventory by how_many*10
+	Decrement tortillas by how_many
+Prepare how_many from suborder
+Decrement toPrepare by how_many
+Change suborder priority
+else:
+	Check for meat
+	if not enough meat:
+		pause suborder
+		prepare meat
+		continue
+	for each ingredient needed, decrement inventory by toPrepare*10
+	Decrement tortillas by toPrepare
+	Complete suborder
+</pre>
 <LI> <h4> Queue_Algorithm() Function Flowchart </h4></LI>
 <img src = https://user-images.githubusercontent.com/18355966/33364893-3337094c-d49b-11e7-9d28-d63f5e5d33a2.png>
+<LI> <h4> Queue_Algorithm() Pseudocode </h4></LI>
+<pre>while true:
+for the first three orders in maximum priority queue:
+		if the queue is not empty:
+			work on each order for 0.2 seconds
+for the first two orders in medium priority queue:
+		if the queue is not empty:
+			work on each order for 0.4 seconds
+if the low priority queue is not empty:
+		work on the first  order in queue for 0.8 seconds
+if the waiting queue is not empty or the min priority queue is not empty:
+		if the waiting queue is not empty:
+			work on the first order in the queue for as long as it takes to finish
+			complete suborder
+	else if min priority queue is not empty:
+			work on the first order in queue for 1.6 seconds
+</pre>
 </UL>
 <h2 id = "4"> 4. Contribuitors </h2>
 <UL type = disk> 
